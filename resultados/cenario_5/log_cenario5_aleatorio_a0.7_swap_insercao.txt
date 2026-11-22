@@ -1,0 +1,116 @@
+=== CONSTRUÇÃO: ESTRATÉGIA B (PARCIALMENTE GULOSA - RCL alpha=0.7) ===
+Passo 1: C_min=R$2970.00, C_max=R$25200.00, Limite RCL=R$18531.00 | Tamanho RCL=16 | Escolhida: OP13
+Passo 2: C_min=R$12510.00, C_max=R$34290.00, Limite RCL=R$27756.00 | Tamanho RCL=15 | Escolhida: OP10
+Passo 3: C_min=R$22950.00, C_max=R$45360.00, Limite RCL=R$38637.00 | Tamanho RCL=14 | Escolhida: OP07
+Passo 4: C_min=R$24840.00, C_max=R$46350.00, Limite RCL=R$39897.00 | Tamanho RCL=13 | Escolhida: OP18
+Passo 5: C_min=R$37710.00, C_max=R$60120.00, Limite RCL=R$53397.00 | Tamanho RCL=12 | Escolhida: OP09
+Passo 6: C_min=R$45660.00, C_max=R$67860.00, Limite RCL=R$61200.00 | Tamanho RCL=11 | Escolhida: OP01
+Passo 7: C_min=R$45930.00, C_max=R$66180.00, Limite RCL=R$60105.00 | Tamanho RCL=10 | Escolhida: OP12
+Passo 8: C_min=R$52320.00, C_max=R$69690.00, Limite RCL=R$64479.00 | Tamanho RCL=10 | Escolhida: OP04
+Passo 9: C_min=R$58080.00, C_max=R$74070.00, Limite RCL=R$69273.00 | Tamanho RCL=9 | Escolhida: OP08
+Passo 10: C_min=R$70650.00, C_max=R$84330.00, Limite RCL=R$80226.00 | Tamanho RCL=8 | Escolhida: OP15
+Passo 11: C_min=R$73620.00, C_max=R$89580.00, Limite RCL=R$84792.00 | Tamanho RCL=8 | Escolhida: OP06
+Passo 12: C_min=R$82890.00, C_max=R$101580.00, Limite RCL=R$95973.00 | Tamanho RCL=8 | Escolhida: OP14
+Passo 13: C_min=R$93690.00, C_max=R$117000.00, Limite RCL=R$110007.00 | Tamanho RCL=7 | Escolhida: OP05
+Passo 14: C_min=R$98100.00, C_max=R$123720.00, Limite RCL=R$116034.00 | Tamanho RCL=6 | Escolhida: OP02
+Passo 15: C_min=R$100800.00, C_max=R$126600.00, Limite RCL=R$118860.00 | Tamanho RCL=5 | Escolhida: OP17
+Passo 16: C_min=R$109260.00, C_max=R$138570.00, Limite RCL=R$129777.00 | Tamanho RCL=4 | Escolhida: OP20
+Passo 17: C_min=R$119250.00, C_max=R$150900.00, Limite RCL=R$141405.00 | Tamanho RCL=3 | Escolhida: OP11
+Passo 18: C_min=R$120420.00, C_max=R$152850.00, Limite RCL=R$143121.00 | Tamanho RCL=2 | Escolhida: OP19
+Passo 19: C_min=R$134820.00, C_max=R$157320.00, Limite RCL=R$150570.00 | Tamanho RCL=1 | Escolhida: OP16
+Passo 20: C_min=R$172020.00, C_max=R$172020.00, Limite RCL=R$172020.00 | Tamanho RCL=1 | Escolhida: OP03
+
+=== REFINAMENTO: VARIABLE NEIGHBORHOOD DESCENT (VND) ===
+Custo de Partida para o VND: R$ 172020.00
+
+--- [Etapa 1] Explorando Vizinhança N1: SWAP ---
+  [Iteração 4] MELHORA ENCONTRADA! Swap pos (0 <-> 4): OP13 <-> OP09 | Custo: R$ 172020.00 -> R$ 170640.00 (-R$ 1380.00)
+  [Iteração 9] MELHORA ENCONTRADA! Swap pos (0 <-> 5): OP09 <-> OP01 | Custo: R$ 170640.00 -> R$ 167310.00 (-R$ 3330.00)
+  [Iteração 12] MELHORA ENCONTRADA! Swap pos (0 <-> 3): OP01 <-> OP18 | Custo: R$ 167310.00 -> R$ 166740.00 (-R$ 570.00)
+  [Iteração 17] MELHORA ENCONTRADA! Swap pos (0 <-> 5): OP18 <-> OP09 | Custo: R$ 166740.00 -> R$ 166200.00 (-R$ 540.00)
+  [Iteração 24] MELHORA ENCONTRADA! Swap pos (0 <-> 7): OP09 <-> OP04 | Custo: R$ 166200.00 -> R$ 160860.00 (-R$ 5340.00)
+  [Iteração 29] MELHORA ENCONTRADA! Swap pos (0 <-> 5): OP04 <-> OP18 | Custo: R$ 160860.00 -> R$ 160320.00 (-R$ 540.00)
+  [Iteração 30] MELHORA ENCONTRADA! Swap pos (0 <-> 1): OP18 <-> OP10 | Custo: R$ 160320.00 -> R$ 159870.00 (-R$ 450.00)
+  [Iteração 33] MELHORA ENCONTRADA! Swap pos (0 <-> 3): OP10 <-> OP01 | Custo: R$ 159870.00 -> R$ 157260.00 (-R$ 2610.00)
+  [Iteração 58] MELHORA ENCONTRADA! Swap pos (1 <-> 7): OP18 <-> OP09 | Custo: R$ 157260.00 -> R$ 156390.00 (-R$ 870.00)
+  [Iteração 84] MELHORA ENCONTRADA! Swap pos (1 <-> 8): OP09 <-> OP08 | Custo: R$ 156390.00 -> R$ 154710.00 (-R$ 1680.00)
+  [Iteração 104] MELHORA ENCONTRADA! Swap pos (1 <-> 2): OP08 <-> OP07 | Custo: R$ 154710.00 -> R$ 152400.00 (-R$ 2310.00)
+  [Iteração 145] MELHORA ENCONTRADA! Swap pos (2 <-> 6): OP08 <-> OP12 | Custo: R$ 152400.00 -> R$ 151440.00 (-R$ 960.00)
+  [Iteração 190] MELHORA ENCONTRADA! Swap pos (2 <-> 10): OP12 <-> OP06 | Custo: R$ 151440.00 -> R$ 150810.00 (-R$ 630.00)
+  [Iteração 210] MELHORA ENCONTRADA! Swap pos (1 <-> 2): OP07 <-> OP06 | Custo: R$ 150810.00 -> R$ 150420.00 (-R$ 390.00)
+  [Iteração 236] MELHORA ENCONTRADA! Swap pos (1 <-> 8): OP06 <-> OP09 | Custo: R$ 150420.00 -> R$ 150000.00 (-R$ 420.00)
+  [Iteração 264] MELHORA ENCONTRADA! Swap pos (1 <-> 10): OP09 <-> OP12 | Custo: R$ 150000.00 -> R$ 149040.00 (-R$ 960.00)
+  [Iteração 284] MELHORA ENCONTRADA! Swap pos (1 <-> 2): OP12 <-> OP07 | Custo: R$ 149040.00 -> R$ 146130.00 (-R$ 2910.00)
+  [Iteração 338] MELHORA ENCONTRADA! Swap pos (2 <-> 19): OP12 <-> OP03 | Custo: R$ 146130.00 -> R$ 134880.00 (-R$ 11250.00)
+  [Iteração 358] MELHORA ENCONTRADA! Swap pos (1 <-> 2): OP07 <-> OP03 | Custo: R$ 134880.00 -> R$ 133590.00 (-R$ 1290.00)
+  [Iteração 382] MELHORA ENCONTRADA! Swap pos (1 <-> 6): OP03 <-> OP08 | Custo: R$ 133590.00 -> R$ 132870.00 (-R$ 720.00)
+  [Iteração 402] MELHORA ENCONTRADA! Swap pos (1 <-> 2): OP08 <-> OP07 | Custo: R$ 132870.00 -> R$ 130560.00 (-R$ 2310.00)
+  [Iteração 456] MELHORA ENCONTRADA! Swap pos (2 <-> 19): OP08 <-> OP12 | Custo: R$ 130560.00 -> R$ 117000.00 (-R$ 13560.00)
+  [Iteração 502] MELHORA ENCONTRADA! Swap pos (2 <-> 11): OP12 <-> OP14 | Custo: R$ 117000.00 -> R$ 115710.00 (-R$ 1290.00)
+  [Iteração 545] MELHORA ENCONTRADA! Swap pos (2 <-> 8): OP14 <-> OP06 | Custo: R$ 115710.00 -> R$ 114270.00 (-R$ 1440.00)
+  [Iteração 565] MELHORA ENCONTRADA! Swap pos (1 <-> 2): OP07 <-> OP06 | Custo: R$ 114270.00 -> R$ 113880.00 (-R$ 390.00)
+  [Iteração 620] MELHORA ENCONTRADA! Swap pos (3 <-> 4): OP10 <-> OP13 | Custo: R$ 113880.00 -> R$ 113610.00 (-R$ 270.00)
+  [Iteração 676] MELHORA ENCONTRADA! Swap pos (3 <-> 5): OP13 <-> OP04 | Custo: R$ 113610.00 -> R$ 110790.00 (-R$ 2820.00)
+  [Iteração 697] MELHORA ENCONTRADA! Swap pos (1 <-> 3): OP06 <-> OP04 | Custo: R$ 110790.00 -> R$ 110400.00 (-R$ 390.00)
+  [Iteração 721] MELHORA ENCONTRADA! Swap pos (1 <-> 6): OP04 <-> OP03 | Custo: R$ 110400.00 -> R$ 107970.00 (-R$ 2430.00)
+  [Iteração 742] MELHORA ENCONTRADA! Swap pos (1 <-> 3): OP03 <-> OP06 | Custo: R$ 107970.00 -> R$ 106320.00 (-R$ 1650.00)
+  [Iteração 814] MELHORA ENCONTRADA! Swap pos (4 <-> 6): OP10 <-> OP04 | Custo: R$ 106320.00 -> R$ 102330.00 (-R$ 3990.00)
+  [Iteração 839] MELHORA ENCONTRADA! Swap pos (1 <-> 7): OP06 <-> OP18 | Custo: R$ 102330.00 -> R$ 102090.00 (-R$ 240.00)
+  [Iteração 867] MELHORA ENCONTRADA! Swap pos (1 <-> 10): OP18 <-> OP09 | Custo: R$ 102090.00 -> R$ 100590.00 (-R$ 1500.00)
+  [Iteração 922] MELHORA ENCONTRADA! Swap pos (3 <-> 4): OP03 <-> OP04 | Custo: R$ 100590.00 -> R$ 97650.00 (-R$ 2940.00)
+  [Iteração 993] MELHORA ENCONTRADA! Swap pos (4 <-> 5): OP03 <-> OP13 | Custo: R$ 97650.00 -> R$ 97260.00 (-R$ 390.00)
+  [Iteração 1066] MELHORA ENCONTRADA! Swap pos (4 <-> 7): OP13 <-> OP06 | Custo: R$ 97260.00 -> R$ 93840.00 (-R$ 3420.00)
+  [Iteração 1069] MELHORA ENCONTRADA! Swap pos (0 <-> 3): OP01 <-> OP04 | Custo: R$ 93840.00 -> R$ 93600.00 (-R$ 240.00)
+  [Iteração 1173] MELHORA ENCONTRADA! Swap pos (6 <-> 11): OP10 <-> OP12 | Custo: R$ 93600.00 -> R$ 91380.00 (-R$ 2220.00)
+  [Iteração 1178] MELHORA ENCONTRADA! Swap pos (0 <-> 5): OP04 <-> OP03 | Custo: R$ 91380.00 -> R$ 90720.00 (-R$ 660.00)
+  [Iteração 1179] MELHORA ENCONTRADA! Swap pos (0 <-> 1): OP03 <-> OP09 | Custo: R$ 90720.00 -> R$ 88290.00 (-R$ 2430.00)
+  [Iteração 1182] MELHORA ENCONTRADA! Swap pos (0 <-> 3): OP09 <-> OP01 | Custo: R$ 88290.00 -> R$ 86520.00 (-R$ 1770.00)
+  [Iteração 1203] MELHORA ENCONTRADA! Swap pos (1 <-> 3): OP03 <-> OP09 | Custo: R$ 86520.00 -> R$ 85860.00 (-R$ 660.00)
+  [Iteração 1225] MELHORA ENCONTRADA! Swap pos (1 <-> 4): OP09 <-> OP06 | Custo: R$ 85860.00 -> R$ 85800.00 (-R$ 60.00)
+  [Iteração 1296] MELHORA ENCONTRADA! Swap pos (4 <-> 5): OP09 <-> OP04 | Custo: R$ 85800.00 -> R$ 82830.00 (-R$ 2970.00)
+  [Iteração 1319] MELHORA ENCONTRADA! Swap pos (1 <-> 5): OP06 <-> OP09 | Custo: R$ 82830.00 -> R$ 82530.00 (-R$ 300.00)
+  [Iteração 1405] MELHORA ENCONTRADA! Swap pos (5 <-> 6): OP06 <-> OP12 | Custo: R$ 82530.00 -> R$ 82350.00 (-R$ 180.00)
+  [Iteração 1493] MELHORA ENCONTRADA! Swap pos (5 <-> 8): OP12 <-> OP14 | Custo: R$ 82350.00 -> R$ 82260.00 (-R$ 90.00)
+  [Iteração 1591] MELHORA ENCONTRADA! Swap pos (5 <-> 18): OP14 <-> OP16 | Custo: R$ 82260.00 -> R$ 68970.00 (-R$ 13290.00)
+  [Iteração 1646] MELHORA ENCONTRADA! Swap pos (3 <-> 4): OP03 <-> OP04 | Custo: R$ 68970.00 -> R$ 67710.00 (-R$ 1260.00)
+  [Iteração 1759] MELHORA ENCONTRADA! Swap pos (7 <-> 8): OP13 <-> OP12 | Custo: R$ 67710.00 -> R$ 62310.00 (-R$ 5400.00)
+  [Iteração 1905] MELHORA ENCONTRADA! Swap pos (10 <-> 11): OP18 <-> OP10 | Custo: R$ 62310.00 -> R$ 60240.00 (-R$ 2070.00)
+  [Iteração 2060] MELHORA ENCONTRADA! Swap pos (11 <-> 12): OP18 <-> OP05 | Custo: R$ 60240.00 -> R$ 58860.00 (-R$ 1380.00)
+  [Iteração 2216] MELHORA ENCONTRADA! Swap pos (11 <-> 13): OP05 <-> OP02 | Custo: R$ 58860.00 -> R$ 57630.00 (-R$ 1230.00)
+  [Iteração 2353] MELHORA ENCONTRADA! Swap pos (9 <-> 11): OP15 <-> OP02 | Custo: R$ 57630.00 -> R$ 56340.00 (-R$ 1290.00)
+  [Iteração 2526] MELHORA ENCONTRADA! Swap pos (13 <-> 17): OP05 <-> OP19 | Custo: R$ 56340.00 -> R$ 56160.00 (-R$ 180.00)
+  [Iteração 2689] MELHORA ENCONTRADA! Swap pos (12 <-> 13): OP18 <-> OP19 | Custo: R$ 56160.00 -> R$ 54840.00 (-R$ 1320.00)
+  [Iteração 2866] MELHORA ENCONTRADA! Swap pos (14 <-> 16): OP17 <-> OP11 | Custo: R$ 54840.00 -> R$ 53700.00 (-R$ 1140.00)
+  [Iteração 3030] MELHORA ENCONTRADA! Swap pos (12 <-> 14): OP19 <-> OP11 | Custo: R$ 53700.00 -> R$ 53040.00 (-R$ 660.00)
+  [Iteração 3211] MELHORA ENCONTRADA! Swap pos (15 <-> 16): OP20 <-> OP17 | Custo: R$ 53040.00 -> R$ 52470.00 (-R$ 570.00)
+  [Iteração 3375] MELHORA ENCONTRADA! Swap pos (12 <-> 14): OP11 <-> OP19 | Custo: R$ 52470.00 -> R$ 52170.00 (-R$ 300.00)
+  [Iteração 3540] MELHORA ENCONTRADA! Swap pos (12 <-> 15): OP19 <-> OP17 | Custo: R$ 52170.00 -> R$ 51300.00 (-R$ 870.00)
+  [Iteração 3707] MELHORA ENCONTRADA! Swap pos (12 <-> 17): OP17 <-> OP05 | Custo: R$ 51300.00 -> R$ 49560.00 (-R$ 1740.00)
+  [Iteração 3892] MELHORA ENCONTRADA! Swap pos (16 <-> 17): OP20 <-> OP17 | Custo: R$ 49560.00 -> R$ 49290.00 (-R$ 270.00)
+  [Iteração 4058] MELHORA ENCONTRADA! Swap pos (12 <-> 16): OP05 <-> OP17 | Custo: R$ 49290.00 -> R$ 48600.00 (-R$ 690.00)
+  [Iteração 4246] MELHORA ENCONTRADA! Swap pos (17 <-> 18): OP20 <-> OP14 | Custo: R$ 48600.00 -> R$ 48510.00 (-R$ 90.00)
+  [Iteração 4413] MELHORA ENCONTRADA! Swap pos (12 <-> 17): OP17 <-> OP14 | Custo: R$ 48510.00 -> R$ 48360.00 (-R$ 150.00)
+  [Iteração 4603] MELHORA ENCONTRADA! Swap pos (18 <-> 19): OP20 <-> OP08 | Custo: R$ 48360.00 -> R$ 47760.00 (-R$ 600.00)
+==> SUCESSO em N1 (SWAP): Custo reduzido para R$ 47760.00 (-R$ 124260.00). Reiniciando para N1 (SWAP).
+
+--- [Etapa 2] Explorando Vizinhança N1: SWAP ---
+==> SEM MELHORIAS em N1 (SWAP). Avançando para próxima vizinhança.
+
+--- [Etapa 3] Explorando Vizinhança N2: INSERCAO ---
+==> SEM MELHORIAS em N2 (INSERCAO). Avançando para próxima vizinhança.
+
+Fim do VND: Nenhuma vizinhança possui soluções melhores. Ótimo Local atingido!
+
+=================================================================
+RESUMO FINAL DA EXECUÇÃO:
+Cenário: cenario_5.csv
+Construtiva: Estratégia B (Parcialmente Gulosa RCL alpha=0.7)
+Refinamento: VND (Variable Neighborhood Descent) (Swap + Insercao)
+Custo Inicial: R$ 172020.00
+Custo Final: R$ 47760.00
+Redução %: 72.24%
+Tempo Execução: 0.2306 s
+Iterações: 5363
+Sequência: OP01 -> OP09 -> OP07 -> OP04 -> OP03 -> OP16 -> OP06 -> OP12 -> OP13 -> OP02 -> OP10 -> OP15 -> OP14 -> OP18 -> OP11 -> OP19 -> OP05 -> OP17 -> OP08 -> OP20
+Gráfico Gantt: resultados/cenario_5/gantt_cenario5_aleatorio_a0.7_swap_insercao.png
+=================================================================

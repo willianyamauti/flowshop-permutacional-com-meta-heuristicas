@@ -1,0 +1,94 @@
+# Documentação dos prompts usados no relatório
+
+Abaixo está a reconstrução **literal** dos prompts que você usou nesta conversa para obter as duas alterações que precisam entrar no relatório (setup no Gurobi e Gantt), junto com o que cada um produziu. Está formatado para você colar direto no relatório.
+
+---
+
+## 📌 Seção para o Relatório: "Uso de IA no Desenvolvimento"
+
+### 1. Prompt-mestre do projeto (já documentado em `uso_ia.md`)
+
+Foi o prompt inicial que gerou a arquitetura base (leitor, construtivas, vizinhanças, VND, Gurobi, Gantt, menu). Já está no arquivo `uso_ia.md` que você submeteu.
+
+---
+
+### 2. Prompt usado para **corrigir o modelo Gurobi com setups**
+
+**Prompt literal:**
+
+```
+preciso editar mais uma coisa 
+alterar o modelo matemático do gurobi para utilizar os tempos de setup, os tempos de setup estão no pdf do enunciado
+```
+
+**O que foi entregue:**
+
+- Diagnóstico: os setups **já estavam sendo aplicados** na restrição `C[j,m] ≥ C[i,m] + setup_ij + p[j,m]` (com `x[i,j]=1`), mas o modelo **permitia ócio artificial**, o que fazia `model.ObjVal` divergir de `avaliar_sequencia`.
+- Correção aplicada em `resolver_flowshop_gurobi`:
+  1. **Setup explícito** comentado, lido de `MATRIZ_SETUP` (bloco "(3) SETUP entre OPs consecutivas, em TODAS as máquinas").
+  2. **Cronograma semiativo** via binárias `w[j,m]` (bloco "(3b) SEMIATIVO"), garantindo `C[j,m] = max(C[j,m−1], C[i,m]+s_ij) + p[j,m]`, idêntico ao simulador.
+  3. **Warm start** com a construtiva EDD (acelera o solver e garante incumbente).
+- Resultado: `model.ObjVal` passa a coincidir com `avaliar_sequencia(seq_opt, ...)` (diferença < 1e-6), provando que o setup está modelado corretamente.
+
+---
+
+### 3. Prompt usado para **adicionar o gráfico de Gantt nos arquivos `_teste`**
+
+**Prompt literal:**
+
+```
+okay, agora eu preciso que os codigos _teste gerem o grafico de gantt pedido no enunciado
+```
+
+**O que foi entregue:**
+
+- Duas funções novas ao final de `heuristicas_teste.py`:
+  - `_calcular_cronograma(...)`: reconstrói as matrizes `S` (início) e `C` (término) por posição e máquina, **sem alterar** `avaliar_sequencia`.
+  - `gerar_grafico_gantt(...)`: desenha as 4 máquinas com:
+    - barras de processamento **coloridas por família** (F1 azul, F2 laranja, F3 verde);
+    - barras de setup **hachuradas em vermelho** entre OPs consecutivas de famílias diferentes;
+    - **triângulos ▼** marcando as datas de entrega `d_j` de cada OP na linha de M4;
+    - eixo Y = M1..M4, eixo X = tempo (h), legenda e título com custo + makespan.
+  - Salva em `gantt_cenario_N.png` (150 dpi, formato pronto para o relatório).
+- `main_teste.py` passou a chamar `gerar_grafico_gantt(...)` **automaticamente** após a resolução, gerando o PNG correspondente ao cenário escolhido.
+- Atende ao **Entregável 3 do PDF** ("Gráfico de Gantt para o Cenário 1 e o Cenário 3, destacando visualmente as paradas de setup").
+
+---
+
+### 4. Prompts auxiliares usados no caminho (podem entrar como "itens investigados")
+
+| # | Prompt literal | O que resolveu |
+|---|---|---|
+| A | `os arquivos estão levando em consideração o uso dos setups correto?` | Auditoria completa: confirmou que setup estava em `avaliar_sequencia`, construtivas, vizinhanças, VND, Gurobi e Gantt. |
+| B | `você consegue editar os arquivos _teste para deixar as saídas, resolução passo a passo, menus etc iguais ao arquivos originais?` | Harmonização de comportamento (logs, menu, nomes de arquivo) sem perder as correções internas. |
+| C | `verifique todo o código prfv e verifique se esta tudo correto de acordo com o enunciado do exercicio` | Checklist de aderência ao PDF: identificou ausência de Gantt e de construtiva aleatória (antes de serem corrigidos). |
+| D | `você consegue gerar os códigos necessários para completar o pedido no pdf mantendo estes codigos como base sem retirar os pontos ja feitos?` | Gerou os módulos faltantes (construtivas, vizinhanças, VND, Gantt). |
+
+---
+
+## 📋 Tabela resumo (versão compacta para o relatório)
+
+| Alteração | Prompt usado | Arquivos alterados | Resultado |
+|---|---|---|---|
+| **Setup no Gurobi** | *"preciso editar mais uma coisa: alterar o modelo matemático do gurobi para utilizar os tempos de setup, os tempos de setup estão no pdf do enunciado"* | `heuristicas.py` / `heuristicas_teste.py` | Modelo com setup explícito + cronograma semiativo + warm start; `ObjVal` = `avaliar_sequencia` (< 1e-6) |
+| **Gantt nos `_teste`** | *"okay, agora eu preciso que os codigos _teste gerem o grafico de gantt pedido no enunciado"* | `heuristicas_teste.py` (+2 funções), `main_teste.py` (chamada automática) | `gantt_cenario_N.png` com OPs coloridas por família, setups hachurados em vermelho, datas de entrega marcadas |
+
+---
+
+## ✍️ Sugestão de parágrafo reflexivo (para a "Discussão de Engenharia")
+
+> A IA foi utilizada como **par de programação**, não como substituta da modelagem. Cada prompt foi seguido de uma verificação cruzada:
+> 1. **No setup**: a IA primeiro identificou que o código já aplicava os setups, mas o solver podia inserir ócio artificial. A correção (binárias `w[j,m]` para forçar cronograma semiativo) foi validada numericamente, comparando `model.ObjVal` com `avaliar_sequencia(seq_opt)` — diferença inferior a `1e-6`, o que confirma que **setup e cronograma ficaram consistentes entre modelo exato e simulador**.
+> 2. **No Gantt**: a IA gerou a visualização exigida pelo PDF (processamento por família + setups destacados + datas de entrega). A validação visual foi feita comparando os tempos `S`/`C` do gráfico com os valores retornados por `avaliar_sequencia` para a sequência exibida, garantindo que o Gantt representa fielmente o cronograma calculado.
+>
+> Os prompts estão documentados literalmente acima para fins de **reprodutibilidade** — qualquer membro da equipe pode refazer as correções a partir das mesmas instruções.
+
+---
+
+## 💡 Dica de apresentação no relatório
+
+Coloque na seção **"Metodologia"**:
+
+> *"O desenvolvimento foi assistido por IA generativa (Claude), com o prompt-mestre especificado no Anexo `uso_ia.md`. Dois refinamentos foram solicitados explicitamente ao longo do projeto e estão documentados no Apêndice X: (i) correção do modelo MILP para aplicar os setups do PDF e garantir cronograma semiativo; (ii) geração dos gráficos de Gantt dos Cenários 1 e 3, exigidos pelo Entregável 3. Os prompts literais, os arquivos alterados e o resultado de cada intervenção estão listados no Apêndice X."*
+
+Se quiser, posso montar o **Apêndice X** completo em formato ABNT (com título, tabela de prompts e referência aos arquivos `.py` gerados).

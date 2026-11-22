@@ -1,0 +1,46 @@
+=== CONSTRUÇÃO: ESTRATÉGIA A (EDD + SETUP) ===
+Passo 1: Selecionada 1ª OP pelo menor Due Date: OP01 (Família F1, d_j = 15.0h)
+Passo 2: Adicionada OP OP04 (Família F1, Score = 20.00)
+Passo 3: Adicionada OP OP07 (Família F1, Score = 28.00)
+Passo 4: Adicionada OP OP10 (Família F1, Score = 40.00)
+Passo 5: Adicionada OP OP03 (Família F2, Score = 122.00)
+Passo 6: Adicionada OP OP05 (Família F2, Score = 25.00)
+Passo 7: Adicionada OP OP09 (Família F2, Score = 32.00)
+Passo 8: Adicionada OP OP12 (Família F2, Score = 38.00)
+Passo 9: Adicionada OP OP02 (Família F3, Score = 93.00)
+Passo 10: Adicionada OP OP06 (Família F3, Score = 30.00)
+Passo 11: Adicionada OP OP08 (Família F3, Score = 35.00)
+Passo 12: Adicionada OP OP11 (Família F3, Score = 42.00)
+
+=== REFINAMENTO: VARIABLE NEIGHBORHOOD DESCENT (VND) ===
+Custo de Partida para o VND: R$ 32040.00
+
+--- [Etapa 1] Explorando Vizinhança N1: INSERCAO ---
+  [Iteração 25] MELHORA ENCONTRADA! Inserção: Mover OP07 da pos 2 para pos 3 | Custo: R$ 32040.00 -> R$ 31860.00 (-R$ 180.00)
+  [Iteração 57] MELHORA ENCONTRADA! Inserção: Mover OP10 da pos 2 para pos 10 | Custo: R$ 31860.00 -> R$ 31620.00 (-R$ 240.00)
+  [Iteração 95] MELHORA ENCONTRADA! Inserção: Mover OP03 da pos 3 para pos 5 | Custo: R$ 31620.00 -> R$ 29940.00 (-R$ 1680.00)
+  [Iteração 134] MELHORA ENCONTRADA! Inserção: Mover OP05 da pos 3 para pos 6 | Custo: R$ 29940.00 -> R$ 27870.00 (-R$ 2070.00)
+  [Iteração 172] MELHORA ENCONTRADA! Inserção: Mover OP09 da pos 3 para pos 5 | Custo: R$ 27870.00 -> R$ 26160.00 (-R$ 1710.00)
+  [Iteração 225] MELHORA ENCONTRADA! Inserção: Mover OP12 da pos 4 para pos 9 | Custo: R$ 26160.00 -> R$ 25350.00 (-R$ 810.00)
+  [Iteração 277] MELHORA ENCONTRADA! Inserção: Mover OP09 da pos 4 para pos 8 | Custo: R$ 25350.00 -> R$ 24210.00 (-R$ 1140.00)
+  [Iteração 398] MELHORA ENCONTRADA! Inserção: Mover OP10 da pos 10 para pos 11 | Custo: R$ 24210.00 -> R$ 21210.00 (-R$ 3000.00)
+==> SUCESSO em N1 (INSERCAO): Custo reduzido para R$ 21210.00 (-R$ 10830.00). Reiniciando para N1 (SWAP).
+
+--- [Etapa 2] Explorando Vizinhança N1: INSERCAO ---
+==> SEM MELHORIAS em N1 (INSERCAO). Avançando para próxima vizinhança.
+
+Fim do VND: Nenhuma vizinhança possui soluções melhores. Ótimo Local atingido!
+
+=================================================================
+RESUMO FINAL DA EXECUÇÃO:
+Cenário: cenario_2.csv
+Construtiva: Estratégia A (EDD + Setup)
+Refinamento: VND (Variable Neighborhood Descent) (Insercao)
+Custo Inicial: R$ 32040.00
+Custo Final: R$ 21210.00
+Redução %: 33.80%
+Tempo Execução: 0.0272 s
+Iterações: 662
+Sequência: OP01 -> OP04 -> OP07 -> OP03 -> OP05 -> OP02 -> OP06 -> OP08 -> OP09 -> OP12 -> OP11 -> OP10
+Gráfico Gantt: resultados/cenario_2/gantt_cenario2_edd_insercao.png
+=================================================================

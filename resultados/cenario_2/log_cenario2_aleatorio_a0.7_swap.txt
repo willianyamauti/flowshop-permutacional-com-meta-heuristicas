@@ -1,0 +1,58 @@
+=== CONSTRUÇÃO: ESTRATÉGIA B (PARCIALMENTE GULOSA - RCL alpha=0.7) ===
+Passo 1: C_min=R$1260.00, C_max=R$5940.00, Limite RCL=R$4536.00 | Tamanho RCL=9 | Escolhida: OP06
+Passo 2: C_min=R$4170.00, C_max=R$9180.00, Limite RCL=R$7677.00 | Tamanho RCL=8 | Escolhida: OP01
+Passo 3: C_min=R$4260.00, C_max=R$8040.00, Limite RCL=R$6906.00 | Tamanho RCL=7 | Escolhida: OP02
+Passo 4: C_min=R$6960.00, C_max=R$12570.00, Limite RCL=R$10887.00 | Tamanho RCL=8 | Escolhida: OP09
+Passo 5: C_min=R$7770.00, C_max=R$16170.00, Limite RCL=R$13650.00 | Tamanho RCL=7 | Escolhida: OP05
+Passo 6: C_min=R$11070.00, C_max=R$19770.00, Limite RCL=R$17160.00 | Tamanho RCL=6 | Escolhida: OP12
+Passo 7: C_min=R$11340.00, C_max=R$22560.00, Limite RCL=R$19194.00 | Tamanho RCL=4 | Escolhida: OP08
+Passo 8: C_min=R$14160.00, C_max=R$29460.00, Limite RCL=R$24870.00 | Tamanho RCL=3 | Escolhida: OP11
+Passo 9: C_min=R$18660.00, C_max=R$30360.00, Limite RCL=R$26850.00 | Tamanho RCL=2 | Escolhida: OP10
+Passo 10: C_min=R$30960.00, C_max=R$36060.00, Limite RCL=R$34530.00 | Tamanho RCL=1 | Escolhida: OP07
+Passo 11: C_min=R$49260.00, C_max=R$49260.00, Limite RCL=R$49260.00 | Tamanho RCL=2 | Escolhida: OP04
+Passo 12: C_min=R$69360.00, C_max=R$69360.00, Limite RCL=R$69360.00 | Tamanho RCL=1 | Escolhida: OP03
+
+=== REFINAMENTO: VARIABLE NEIGHBORHOOD DESCENT (VND) ===
+Custo de Partida para o VND: R$ 69360.00
+
+--- [Etapa 1] Explorando Vizinhança N1: SWAP ---
+  [Iteração 1] MELHORA ENCONTRADA! Swap pos (0 <-> 1): OP06 <-> OP01 | Custo: R$ 69360.00 -> R$ 54600.00 (-R$ 14760.00)
+  [Iteração 11] MELHORA ENCONTRADA! Swap pos (0 <-> 10): OP01 <-> OP04 | Custo: R$ 54600.00 -> R$ 54330.00 (-R$ 270.00)
+  [Iteração 23] MELHORA ENCONTRADA! Swap pos (1 <-> 2): OP06 <-> OP02 | Custo: R$ 54330.00 -> R$ 53760.00 (-R$ 570.00)
+  [Iteração 33] MELHORA ENCONTRADA! Swap pos (0 <-> 10): OP04 <-> OP01 | Custo: R$ 53760.00 -> R$ 53340.00 (-R$ 420.00)
+  [Iteração 57] MELHORA ENCONTRADA! Swap pos (2 <-> 5): OP06 <-> OP12 | Custo: R$ 53340.00 -> R$ 49170.00 (-R$ 4170.00)
+  [Iteração 86] MELHORA ENCONTRADA! Swap pos (2 <-> 10): OP12 <-> OP04 | Custo: R$ 49170.00 -> R$ 46620.00 (-R$ 2550.00)
+  [Iteração 87] MELHORA ENCONTRADA! Swap pos (0 <-> 1): OP01 <-> OP02 | Custo: R$ 46620.00 -> R$ 36870.00 (-R$ 9750.00)
+  [Iteração 123] MELHORA ENCONTRADA! Swap pos (3 <-> 9): OP09 <-> OP07 | Custo: R$ 36870.00 -> R$ 36330.00 (-R$ 540.00)
+  [Iteração 174] MELHORA ENCONTRADA! Swap pos (5 <-> 11): OP06 <-> OP03 | Custo: R$ 36330.00 -> R$ 34890.00 (-R$ 1440.00)
+  [Iteração 213] MELHORA ENCONTRADA! Swap pos (4 <-> 5): OP05 <-> OP03 | Custo: R$ 34890.00 -> R$ 34860.00 (-R$ 30.00)
+  [Iteração 235] MELHORA ENCONTRADA! Swap pos (2 <-> 3): OP04 <-> OP07 | Custo: R$ 34860.00 -> R$ 34710.00 (-R$ 150.00)
+  [Iteração 295] MELHORA ENCONTRADA! Swap pos (7 <-> 11): OP11 <-> OP06 | Custo: R$ 34710.00 -> R$ 29130.00 (-R$ 5580.00)
+  [Iteração 298] MELHORA ENCONTRADA! Swap pos (0 <-> 3): OP02 <-> OP04 | Custo: R$ 29130.00 -> R$ 29100.00 (-R$ 30.00)
+  [Iteração 299] MELHORA ENCONTRADA! Swap pos (0 <-> 1): OP04 <-> OP01 | Custo: R$ 29100.00 -> R$ 28560.00 (-R$ 540.00)
+  [Iteração 338] MELHORA ENCONTRADA! Swap pos (4 <-> 5): OP03 <-> OP05 | Custo: R$ 28560.00 -> R$ 28500.00 (-R$ 60.00)
+  [Iteração 373] MELHORA ENCONTRADA! Swap pos (3 <-> 8): OP02 <-> OP10 | Custo: R$ 28500.00 -> R$ 27300.00 (-R$ 1200.00)
+  [Iteração 395] MELHORA ENCONTRADA! Swap pos (2 <-> 3): OP07 <-> OP10 | Custo: R$ 27300.00 -> R$ 27210.00 (-R$ 90.00)
+  [Iteração 448] MELHORA ENCONTRADA! Swap pos (6 <-> 8): OP08 <-> OP02 | Custo: R$ 27210.00 -> R$ 25410.00 (-R$ 1800.00)
+  [Iteração 487] MELHORA ENCONTRADA! Swap pos (4 <-> 5): OP05 <-> OP03 | Custo: R$ 25410.00 -> R$ 24840.00 (-R$ 570.00)
+  [Iteração 551] MELHORA ENCONTRADA! Swap pos (9 <-> 10): OP09 <-> OP12 | Custo: R$ 24840.00 -> R$ 24240.00 (-R$ 600.00)
+==> SUCESSO em N1 (SWAP): Custo reduzido para R$ 24240.00 (-R$ 45120.00). Reiniciando para N1 (SWAP).
+
+--- [Etapa 2] Explorando Vizinhança N1: SWAP ---
+==> SEM MELHORIAS em N1 (SWAP). Avançando para próxima vizinhança.
+
+Fim do VND: Nenhuma vizinhança possui soluções melhores. Ótimo Local atingido!
+
+=================================================================
+RESUMO FINAL DA EXECUÇÃO:
+Cenário: cenario_2.csv
+Construtiva: Estratégia B (Parcialmente Gulosa RCL alpha=0.7)
+Refinamento: VND (Variable Neighborhood Descent) (Swap)
+Custo Inicial: R$ 69360.00
+Custo Final: R$ 24240.00
+Redução %: 65.05%
+Tempo Execução: 0.0212 s
+Iterações: 683
+Sequência: OP01 -> OP04 -> OP10 -> OP07 -> OP03 -> OP05 -> OP02 -> OP06 -> OP08 -> OP12 -> OP09 -> OP11
+Gráfico Gantt: resultados/cenario_2/gantt_cenario2_aleatorio_a0.7_swap.png
+=================================================================

@@ -1,0 +1,184 @@
+=== CONSTRUÇÃO: ESTRATÉGIA B (PARCIALMENTE GULOSA - RCL alpha=0.7) ===
+Passo 1: C_min=R$2970.00, C_max=R$25200.00, Limite RCL=R$18531.00 | Tamanho RCL=16 | Escolhida: OP18
+Passo 2: C_min=R$17280.00, C_max=R$39960.00, Limite RCL=R$33156.00 | Tamanho RCL=15 | Escolhida: OP13
+Passo 3: C_min=R$25380.00, C_max=R$47160.00, Limite RCL=R$40626.00 | Tamanho RCL=14 | Escolhida: OP10
+Passo 4: C_min=R$35280.00, C_max=R$56790.00, Limite RCL=R$50337.00 | Tamanho RCL=13 | Escolhida: OP01
+Passo 5: C_min=R$36780.00, C_max=R$57240.00, Limite RCL=R$51102.00 | Tamanho RCL=12 | Escolhida: OP09
+Passo 6: C_min=R$43020.00, C_max=R$63000.00, Limite RCL=R$57006.00 | Tamanho RCL=12 | Escolhida: OP15
+Passo 7: C_min=R$51840.00, C_max=R$71550.00, Limite RCL=R$65637.00 | Tamanho RCL=10 | Escolhida: OP03
+Passo 8: C_min=R$53550.00, C_max=R$71100.00, Limite RCL=R$65835.00 | Tamanho RCL=10 | Escolhida: OP04
+Passo 9: C_min=R$56880.00, C_max=R$74520.00, Limite RCL=R$69228.00 | Tamanho RCL=8 | Escolhida: OP11
+Passo 10: C_min=R$67200.00, C_max=R$85200.00, Limite RCL=R$79800.00 | Tamanho RCL=8 | Escolhida: OP19
+Passo 11: C_min=R$75240.00, C_max=R$96420.00, Limite RCL=R$90066.00 | Tamanho RCL=8 | Escolhida: OP08
+Passo 12: C_min=R$85410.00, C_max=R$114120.00, Limite RCL=R$105507.00 | Tamanho RCL=8 | Escolhida: OP12
+Passo 13: C_min=R$87420.00, C_max=R$120420.00, Limite RCL=R$110520.00 | Tamanho RCL=7 | Escolhida: OP05
+Passo 14: C_min=R$93060.00, C_max=R$130110.00, Limite RCL=R$118995.00 | Tamanho RCL=6 | Escolhida: OP17
+Passo 15: C_min=R$102330.00, C_max=R$142890.00, Limite RCL=R$130722.00 | Tamanho RCL=5 | Escolhida: OP20
+Passo 16: C_min=R$113130.00, C_max=R$156030.00, Limite RCL=R$143160.00 | Tamanho RCL=4 | Escolhida: OP14
+Passo 17: C_min=R$122340.00, C_max=R$165240.00, Limite RCL=R$152370.00 | Tamanho RCL=3 | Escolhida: OP06
+Passo 18: C_min=R$151740.00, C_max=R$193440.00, Limite RCL=R$180930.00 | Tamanho RCL=2 | Escolhida: OP02
+Passo 19: C_min=R$168540.00, C_max=R$201540.00, Limite RCL=R$191640.00 | Tamanho RCL=1 | Escolhida: OP16
+Passo 20: C_min=R$218640.00, C_max=R$218640.00, Limite RCL=R$218640.00 | Tamanho RCL=1 | Escolhida: OP07
+
+=== REFINAMENTO: VARIABLE NEIGHBORHOOD DESCENT (VND) ===
+Custo de Partida para o VND: R$ 218640.00
+
+--- [Etapa 1] Explorando Vizinhança N1: INSERCAO ---
+  [Iteração 3] MELHORA ENCONTRADA! Inserção: Mover OP18 da pos 0 para pos 3 | Custo: R$ 218640.00 -> R$ 215340.00 (-R$ 3300.00)
+  [Iteração 4] MELHORA ENCONTRADA! Inserção: Mover OP13 da pos 0 para pos 1 | Custo: R$ 215340.00 -> R$ 214980.00 (-R$ 360.00)
+  [Iteração 6] MELHORA ENCONTRADA! Inserção: Mover OP10 da pos 0 para pos 2 | Custo: R$ 214980.00 -> R$ 214890.00 (-R$ 90.00)
+  [Iteração 7] MELHORA ENCONTRADA! Inserção: Mover OP13 da pos 0 para pos 1 | Custo: R$ 214890.00 -> R$ 212730.00 (-R$ 2160.00)
+  [Iteração 32] MELHORA ENCONTRADA! Inserção: Mover OP13 da pos 1 para pos 6 | Custo: R$ 212730.00 -> R$ 211140.00 (-R$ 1590.00)
+  [Iteração 56] MELHORA ENCONTRADA! Inserção: Mover OP10 da pos 1 para pos 5 | Custo: R$ 211140.00 -> R$ 208650.00 (-R$ 2490.00)
+  [Iteração 77] MELHORA ENCONTRADA! Inserção: Mover OP18 da pos 1 para pos 2 | Custo: R$ 208650.00 -> R$ 208380.00 (-R$ 270.00)
+  [Iteração 100] MELHORA ENCONTRADA! Inserção: Mover OP09 da pos 1 para pos 4 | Custo: R$ 208380.00 -> R$ 208020.00 (-R$ 360.00)
+  [Iteração 122] MELHORA ENCONTRADA! Inserção: Mover OP18 da pos 1 para pos 3 | Custo: R$ 208020.00 -> R$ 207960.00 (-R$ 60.00)
+  [Iteração 152] MELHORA ENCONTRADA! Inserção: Mover OP15 da pos 1 para pos 11 | Custo: R$ 207960.00 -> R$ 207240.00 (-R$ 720.00)
+  [Iteração 173] MELHORA ENCONTRADA! Inserção: Mover OP03 da pos 1 para pos 2 | Custo: R$ 207240.00 -> R$ 206610.00 (-R$ 630.00)
+  [Iteração 200] MELHORA ENCONTRADA! Inserção: Mover OP18 da pos 1 para pos 8 | Custo: R$ 206610.00 -> R$ 205980.00 (-R$ 630.00)
+  [Iteração 221] MELHORA ENCONTRADA! Inserção: Mover OP03 da pos 1 para pos 2 | Custo: R$ 205980.00 -> R$ 201990.00 (-R$ 3990.00)
+  [Iteração 250] MELHORA ENCONTRADA! Inserção: Mover OP09 da pos 1 para pos 10 | Custo: R$ 201990.00 -> R$ 199080.00 (-R$ 2910.00)
+  [Iteração 294] MELHORA ENCONTRADA! Inserção: Mover OP10 da pos 2 para pos 6 | Custo: R$ 199080.00 -> R$ 198180.00 (-R$ 900.00)
+  [Iteração 316] MELHORA ENCONTRADA! Inserção: Mover OP03 da pos 1 para pos 3 | Custo: R$ 198180.00 -> R$ 196440.00 (-R$ 1740.00)
+  [Iteração 337] MELHORA ENCONTRADA! Inserção: Mover OP13 da pos 1 para pos 2 | Custo: R$ 196440.00 -> R$ 192210.00 (-R$ 4230.00)
+  [Iteração 380] MELHORA ENCONTRADA! Inserção: Mover OP13 da pos 2 para pos 5 | Custo: R$ 192210.00 -> R$ 192030.00 (-R$ 180.00)
+  [Iteração 421] MELHORA ENCONTRADA! Inserção: Mover OP03 da pos 2 para pos 3 | Custo: R$ 192030.00 -> R$ 191310.00 (-R$ 720.00)
+  [Iteração 470] MELHORA ENCONTRADA! Inserção: Mover OP11 da pos 2 para pos 11 | Custo: R$ 191310.00 -> R$ 189960.00 (-R$ 1350.00)
+  [Iteração 511] MELHORA ENCONTRADA! Inserção: Mover OP03 da pos 2 para pos 3 | Custo: R$ 189960.00 -> R$ 186540.00 (-R$ 3420.00)
+  [Iteração 566] MELHORA ENCONTRADA! Inserção: Mover OP19 da pos 2 para pos 17 | Custo: R$ 186540.00 -> R$ 182640.00 (-R$ 3900.00)
+  [Iteração 607] MELHORA ENCONTRADA! Inserção: Mover OP03 da pos 2 para pos 3 | Custo: R$ 182640.00 -> R$ 181920.00 (-R$ 720.00)
+  [Iteração 649] MELHORA ENCONTRADA! Inserção: Mover OP13 da pos 2 para pos 4 | Custo: R$ 181920.00 -> R$ 181560.00 (-R$ 360.00)
+  [Iteração 713] MELHORA ENCONTRADA! Inserção: Mover OP10 da pos 3 para pos 7 | Custo: R$ 181560.00 -> R$ 180840.00 (-R$ 720.00)
+  [Iteração 794] MELHORA ENCONTRADA! Inserção: Mover OP18 da pos 4 para pos 5 | Custo: R$ 180840.00 -> R$ 179760.00 (-R$ 1080.00)
+  [Iteração 871] MELHORA ENCONTRADA! Inserção: Mover OP08 da pos 4 para pos 0 | Custo: R$ 179760.00 -> R$ 179190.00 (-R$ 570.00)
+  [Iteração 872] MELHORA ENCONTRADA! Inserção: Mover OP08 da pos 0 para pos 1 | Custo: R$ 179190.00 -> R$ 176640.00 (-R$ 2550.00)
+  [Iteração 893] MELHORA ENCONTRADA! Inserção: Mover OP08 da pos 1 para pos 2 | Custo: R$ 176640.00 -> R$ 176520.00 (-R$ 120.00)
+  [Iteração 950] MELHORA ENCONTRADA! Inserção: Mover OP08 da pos 2 para pos 19 | Custo: R$ 176520.00 -> R$ 172350.00 (-R$ 4170.00)
+  [Iteração 973] MELHORA ENCONTRADA! Inserção: Mover OP04 da pos 1 para pos 4 | Custo: R$ 172350.00 -> R$ 171810.00 (-R$ 540.00)
+  [Iteração 1043] MELHORA ENCONTRADA! Inserção: Mover OP18 da pos 3 para pos 13 | Custo: R$ 171810.00 -> R$ 171060.00 (-R$ 750.00)
+  [Iteração 1066] MELHORA ENCONTRADA! Inserção: Mover OP03 da pos 1 para pos 4 | Custo: R$ 171060.00 -> R$ 170760.00 (-R$ 300.00)
+  [Iteração 1087] MELHORA ENCONTRADA! Inserção: Mover OP13 da pos 1 para pos 2 | Custo: R$ 170760.00 -> R$ 169050.00 (-R$ 1710.00)
+  [Iteração 1109] MELHORA ENCONTRADA! Inserção: Mover OP04 da pos 1 para pos 3 | Custo: R$ 169050.00 -> R$ 167520.00 (-R$ 1530.00)
+  [Iteração 1111] MELHORA ENCONTRADA! Inserção: Mover OP01 da pos 0 para pos 2 | Custo: R$ 167520.00 -> R$ 167250.00 (-R$ 270.00)
+  [Iteração 1112] MELHORA ENCONTRADA! Inserção: Mover OP13 da pos 0 para pos 1 | Custo: R$ 167250.00 -> R$ 166800.00 (-R$ 450.00)
+  [Iteração 1133] MELHORA ENCONTRADA! Inserção: Mover OP13 da pos 1 para pos 2 | Custo: R$ 166800.00 -> R$ 166710.00 (-R$ 90.00)
+  [Iteração 1134] MELHORA ENCONTRADA! Inserção: Mover OP12 da pos 0 para pos 1 | Custo: R$ 166710.00 -> R$ 163560.00 (-R$ 3150.00)
+  [Iteração 1175] MELHORA ENCONTRADA! Inserção: Mover OP13 da pos 2 para pos 3 | Custo: R$ 163560.00 -> R$ 163290.00 (-R$ 270.00)
+  [Iteração 1236] MELHORA ENCONTRADA! Inserção: Mover OP13 da pos 3 para pos 4 | Custo: R$ 163290.00 -> R$ 162480.00 (-R$ 810.00)
+  [Iteração 1317] MELHORA ENCONTRADA! Inserção: Mover OP13 da pos 4 para pos 5 | Custo: R$ 162480.00 -> R$ 161220.00 (-R$ 1260.00)
+  [Iteração 1418] MELHORA ENCONTRADA! Inserção: Mover OP13 da pos 5 para pos 6 | Custo: R$ 161220.00 -> R$ 159960.00 (-R$ 1260.00)
+  [Iteração 1563] MELHORA ENCONTRADA! Inserção: Mover OP15 da pos 7 para pos 12 | Custo: R$ 159960.00 -> R$ 157080.00 (-R$ 2880.00)
+  [Iteração 1704] MELHORA ENCONTRADA! Inserção: Mover OP11 da pos 7 para pos 8 | Custo: R$ 157080.00 -> R$ 156360.00 (-R$ 720.00)
+  [Iteração 1851] MELHORA ENCONTRADA! Inserção: Mover OP05 da pos 7 para pos 14 | Custo: R$ 156360.00 -> R$ 155700.00 (-R$ 660.00)
+  [Iteração 1992] MELHORA ENCONTRADA! Inserção: Mover OP11 da pos 7 para pos 8 | Custo: R$ 155700.00 -> R$ 155040.00 (-R$ 660.00)
+  [Iteração 2139] MELHORA ENCONTRADA! Inserção: Mover OP17 da pos 7 para pos 14 | Custo: R$ 155040.00 -> R$ 153780.00 (-R$ 1260.00)
+  [Iteração 2243] MELHORA ENCONTRADA! Inserção: Mover OP09 da pos 5 para pos 9 | Custo: R$ 153780.00 -> R$ 153630.00 (-R$ 150.00)
+  [Iteração 2364] MELHORA ENCONTRADA! Inserção: Mover OP11 da pos 6 para pos 7 | Custo: R$ 153630.00 -> R$ 153270.00 (-R$ 360.00)
+  [Iteração 2490] MELHORA ENCONTRADA! Inserção: Mover OP20 da pos 6 para pos 12 | Custo: R$ 153270.00 -> R$ 151650.00 (-R$ 1620.00)
+  [Iteração 2611] MELHORA ENCONTRADA! Inserção: Mover OP11 da pos 6 para pos 7 | Custo: R$ 151650.00 -> R$ 151260.00 (-R$ 390.00)
+  [Iteração 2730] MELHORA ENCONTRADA! Inserção: Mover OP14 da pos 6 para pos 4 | Custo: R$ 151260.00 -> R$ 150540.00 (-R$ 720.00)
+  [Iteração 2817] MELHORA ENCONTRADA! Inserção: Mover OP14 da pos 4 para pos 11 | Custo: R$ 150540.00 -> R$ 150360.00 (-R$ 180.00)
+  [Iteração 2918] MELHORA ENCONTRADA! Inserção: Mover OP13 da pos 5 para pos 6 | Custo: R$ 150360.00 -> R$ 149010.00 (-R$ 1350.00)
+  [Iteração 3024] MELHORA ENCONTRADA! Inserção: Mover OP11 da pos 5 para pos 11 | Custo: R$ 149010.00 -> R$ 147990.00 (-R$ 1020.00)
+  [Iteração 3109] MELHORA ENCONTRADA! Inserção: Mover OP10 da pos 4 para pos 9 | Custo: R$ 147990.00 -> R$ 146460.00 (-R$ 1530.00)
+  [Iteração 3212] MELHORA ENCONTRADA! Inserção: Mover OP09 da pos 5 para pos 8 | Custo: R$ 146460.00 -> R$ 144960.00 (-R$ 1500.00)
+  [Iteração 3314] MELHORA ENCONTRADA! Inserção: Mover OP15 da pos 5 para pos 7 | Custo: R$ 144960.00 -> R$ 144840.00 (-R$ 120.00)
+  [Iteração 3396] MELHORA ENCONTRADA! Inserção: Mover OP13 da pos 4 para pos 6 | Custo: R$ 144840.00 -> R$ 144510.00 (-R$ 330.00)
+  [Iteração 3481] MELHORA ENCONTRADA! Inserção: Mover OP18 da pos 4 para pos 9 | Custo: R$ 144510.00 -> R$ 143010.00 (-R$ 1500.00)
+  [Iteração 3542] MELHORA ENCONTRADA! Inserção: Mover OP03 da pos 3 para pos 4 | Custo: R$ 143010.00 -> R$ 142680.00 (-R$ 330.00)
+  [Iteração 3604] MELHORA ENCONTRADA! Inserção: Mover OP06 da pos 3 para pos 5 | Custo: R$ 142680.00 -> R$ 142200.00 (-R$ 480.00)
+  [Iteração 3705] MELHORA ENCONTRADA! Inserção: Mover OP06 da pos 5 para pos 6 | Custo: R$ 142200.00 -> R$ 142110.00 (-R$ 90.00)
+  [Iteração 3807] MELHORA ENCONTRADA! Inserção: Mover OP15 da pos 5 para pos 7 | Custo: R$ 142110.00 -> R$ 141960.00 (-R$ 150.00)
+  [Iteração 3908] MELHORA ENCONTRADA! Inserção: Mover OP06 da pos 5 para pos 6 | Custo: R$ 141960.00 -> R$ 141180.00 (-R$ 780.00)
+  [Iteração 4011] MELHORA ENCONTRADA! Inserção: Mover OP09 da pos 5 para pos 8 | Custo: R$ 141180.00 -> R$ 139860.00 (-R$ 1320.00)
+  [Iteração 4112] MELHORA ENCONTRADA! Inserção: Mover OP06 da pos 5 para pos 6 | Custo: R$ 139860.00 -> R$ 139770.00 (-R$ 90.00)
+  [Iteração 4217] MELHORA ENCONTRADA! Inserção: Mover OP15 da pos 5 para pos 10 | Custo: R$ 139770.00 -> R$ 138840.00 (-R$ 930.00)
+  [Iteração 4378] MELHORA ENCONTRADA! Inserção: Mover OP18 da pos 8 para pos 9 | Custo: R$ 138840.00 -> R$ 137760.00 (-R$ 1080.00)
+  [Iteração 4548] MELHORA ENCONTRADA! Inserção: Mover OP14 da pos 8 para pos 18 | Custo: R$ 137760.00 -> R$ 134550.00 (-R$ 3210.00)
+  [Iteração 4710] MELHORA ENCONTRADA! Inserção: Mover OP18 da pos 8 para pos 10 | Custo: R$ 134550.00 -> R$ 133890.00 (-R$ 660.00)
+  [Iteração 4871] MELHORA ENCONTRADA! Inserção: Mover OP15 da pos 8 para pos 9 | Custo: R$ 133890.00 -> R$ 133170.00 (-R$ 720.00)
+  [Iteração 5012] MELHORA ENCONTRADA! Inserção: Mover OP09 da pos 7 para pos 8 | Custo: R$ 133170.00 -> R$ 132930.00 (-R$ 240.00)
+  [Iteração 5159] MELHORA ENCONTRADA! Inserção: Mover OP11 da pos 7 para pos 14 | Custo: R$ 132930.00 -> R$ 132780.00 (-R$ 150.00)
+  [Iteração 5242] MELHORA ENCONTRADA! Inserção: Mover OP13 da pos 4 para pos 7 | Custo: R$ 132780.00 -> R$ 132750.00 (-R$ 30.00)
+  [Iteração 5303] MELHORA ENCONTRADA! Inserção: Mover OP03 da pos 3 para pos 4 | Custo: R$ 132750.00 -> R$ 131280.00 (-R$ 1470.00)
+  [Iteração 5464] MELHORA ENCONTRADA! Inserção: Mover OP15 da pos 8 para pos 9 | Custo: R$ 131280.00 -> R$ 131100.00 (-R$ 180.00)
+  [Iteração 5626] MELHORA ENCONTRADA! Inserção: Mover OP18 da pos 8 para pos 10 | Custo: R$ 131100.00 -> R$ 129960.00 (-R$ 1140.00)
+  [Iteração 5787] MELHORA ENCONTRADA! Inserção: Mover OP15 da pos 8 para pos 9 | Custo: R$ 129960.00 -> R$ 129180.00 (-R$ 780.00)
+  [Iteração 5956] MELHORA ENCONTRADA! Inserção: Mover OP20 da pos 8 para pos 17 | Custo: R$ 129180.00 -> R$ 126690.00 (-R$ 2490.00)
+  [Iteração 6117] MELHORA ENCONTRADA! Inserção: Mover OP15 da pos 8 para pos 9 | Custo: R$ 126690.00 -> R$ 126510.00 (-R$ 180.00)
+  [Iteração 6279] MELHORA ENCONTRADA! Inserção: Mover OP18 da pos 8 para pos 10 | Custo: R$ 126510.00 -> R$ 125010.00 (-R$ 1500.00)
+  [Iteração 6440] MELHORA ENCONTRADA! Inserção: Mover OP15 da pos 8 para pos 9 | Custo: R$ 125010.00 -> R$ 123870.00 (-R$ 1140.00)
+  [Iteração 6608] MELHORA ENCONTRADA! Inserção: Mover OP05 da pos 8 para pos 16 | Custo: R$ 123870.00 -> R$ 120780.00 (-R$ 3090.00)
+  [Iteração 6770] MELHORA ENCONTRADA! Inserção: Mover OP15 da pos 8 para pos 10 | Custo: R$ 120780.00 -> R$ 119460.00 (-R$ 1320.00)
+  [Iteração 6931] MELHORA ENCONTRADA! Inserção: Mover OP18 da pos 8 para pos 9 | Custo: R$ 119460.00 -> R$ 118590.00 (-R$ 870.00)
+  [Iteração 7097] MELHORA ENCONTRADA! Inserção: Mover OP17 da pos 8 para pos 14 | Custo: R$ 118590.00 -> R$ 116220.00 (-R$ 2370.00)
+  [Iteração 7259] MELHORA ENCONTRADA! Inserção: Mover OP18 da pos 8 para pos 10 | Custo: R$ 116220.00 -> R$ 114540.00 (-R$ 1680.00)
+  [Iteração 7424] MELHORA ENCONTRADA! Inserção: Mover OP15 da pos 8 para pos 13 | Custo: R$ 114540.00 -> R$ 111300.00 (-R$ 3240.00)
+  [Iteração 7588] MELHORA ENCONTRADA! Inserção: Mover OP02 da pos 8 para pos 12 | Custo: R$ 111300.00 -> R$ 109680.00 (-R$ 1620.00)
+  [Iteração 7749] MELHORA ENCONTRADA! Inserção: Mover OP18 da pos 8 para pos 9 | Custo: R$ 109680.00 -> R$ 109560.00 (-R$ 120.00)
+  [Iteração 7912] MELHORA ENCONTRADA! Inserção: Mover OP11 da pos 8 para pos 11 | Custo: R$ 109560.00 -> R$ 109380.00 (-R$ 180.00)
+  [Iteração 8093] MELHORA ENCONTRADA! Inserção: Mover OP19 da pos 9 para pos 10 | Custo: R$ 109380.00 -> R$ 109020.00 (-R$ 360.00)
+  [Iteração 8295] MELHORA ENCONTRADA! Inserção: Mover OP19 da pos 10 para pos 12 | Custo: R$ 109020.00 -> R$ 108930.00 (-R$ 90.00)
+  [Iteração 8496] MELHORA ENCONTRADA! Inserção: Mover OP11 da pos 10 para pos 11 | Custo: R$ 108930.00 -> R$ 108630.00 (-R$ 300.00)
+  [Iteração 8718] MELHORA ENCONTRADA! Inserção: Mover OP11 da pos 11 para pos 13 | Custo: R$ 108630.00 -> R$ 105360.00 (-R$ 3270.00)
+  [Iteração 8939] MELHORA ENCONTRADA! Inserção: Mover OP19 da pos 11 para pos 12 | Custo: R$ 105360.00 -> R$ 105120.00 (-R$ 240.00)
+  [Iteração 9141] MELHORA ENCONTRADA! Inserção: Mover OP02 da pos 10 para pos 12 | Custo: R$ 105120.00 -> R$ 104790.00 (-R$ 330.00)
+  [Iteração 9366] MELHORA ENCONTRADA! Inserção: Mover OP19 da pos 11 para pos 16 | Custo: R$ 104790.00 -> R$ 102390.00 (-R$ 2400.00)
+  [Iteração 9584] MELHORA ENCONTRADA! Inserção: Mover OP02 da pos 11 para pos 8 | Custo: R$ 102390.00 -> R$ 101580.00 (-R$ 810.00)
+  [Iteração 9768] MELHORA ENCONTRADA! Inserção: Mover OP18 da pos 9 para pos 13 | Custo: R$ 101580.00 -> R$ 100590.00 (-R$ 990.00)
+  [Iteração 9967] MELHORA ENCONTRADA! Inserção: Mover OP15 da pos 10 para pos 8 | Custo: R$ 100590.00 -> R$ 100500.00 (-R$ 90.00)
+  [Iteração 10131] MELHORA ENCONTRADA! Inserção: Mover OP15 da pos 8 para pos 12 | Custo: R$ 100500.00 -> R$ 99990.00 (-R$ 510.00)
+  [Iteração 10333] MELHORA ENCONTRADA! Inserção: Mover OP11 da pos 10 para pos 12 | Custo: R$ 99990.00 -> R$ 98550.00 (-R$ 1440.00)
+  [Iteração 10537] MELHORA ENCONTRADA! Inserção: Mover OP17 da pos 10 para pos 14 | Custo: R$ 98550.00 -> R$ 95550.00 (-R$ 3000.00)
+  [Iteração 10738] MELHORA ENCONTRADA! Inserção: Mover OP15 da pos 10 para pos 11 | Custo: R$ 95550.00 -> R$ 94950.00 (-R$ 600.00)
+  [Iteração 10960] MELHORA ENCONTRADA! Inserção: Mover OP15 da pos 11 para pos 13 | Custo: R$ 94950.00 -> R$ 93210.00 (-R$ 1740.00)
+  [Iteração 11022] MELHORA ENCONTRADA! Inserção: Mover OP06 da pos 3 para pos 5 | Custo: R$ 93210.00 -> R$ 93030.00 (-R$ 180.00)
+  [Iteração 11143] MELHORA ENCONTRADA! Inserção: Mover OP09 da pos 6 para pos 7 | Custo: R$ 93030.00 -> R$ 92580.00 (-R$ 450.00)
+  [Iteração 11302] MELHORA ENCONTRADA! Inserção: Mover OP02 da pos 8 para pos 6 | Custo: R$ 92580.00 -> R$ 92550.00 (-R$ 30.00)
+  [Iteração 11428] MELHORA ENCONTRADA! Inserção: Mover OP02 da pos 6 para pos 12 | Custo: R$ 92550.00 -> R$ 90540.00 (-R$ 2010.00)
+  [Iteração 11429] MELHORA ENCONTRADA! Inserção: Mover OP01 da pos 0 para pos 1 | Custo: R$ 90540.00 -> R$ 89760.00 (-R$ 780.00)
+  [Iteração 11590] MELHORA ENCONTRADA! Inserção: Mover OP16 da pos 8 para pos 9 | Custo: R$ 89760.00 -> R$ 89400.00 (-R$ 360.00)
+  [Iteração 11591] MELHORA ENCONTRADA! Inserção: Mover OP12 da pos 0 para pos 1 | Custo: R$ 89400.00 -> R$ 89010.00 (-R$ 390.00)
+  [Iteração 11754] MELHORA ENCONTRADA! Inserção: Mover OP11 da pos 8 para pos 11 | Custo: R$ 89010.00 -> R$ 85830.00 (-R$ 3180.00)
+  [Iteração 11917] MELHORA ENCONTRADA! Inserção: Mover OP16 da pos 8 para pos 11 | Custo: R$ 85830.00 -> R$ 82830.00 (-R$ 3000.00)
+  [Iteração 12059] MELHORA ENCONTRADA! Inserção: Mover OP09 da pos 7 para pos 9 | Custo: R$ 82830.00 -> R$ 81210.00 (-R$ 1620.00)
+  [Iteração 12144] MELHORA ENCONTRADA! Inserção: Mover OP10 da pos 4 para pos 9 | Custo: R$ 81210.00 -> R$ 77580.00 (-R$ 3630.00)
+  [Iteração 12225] MELHORA ENCONTRADA! Inserção: Mover OP06 da pos 4 para pos 5 | Custo: R$ 77580.00 -> R$ 76770.00 (-R$ 810.00)
+  [Iteração 12327] MELHORA ENCONTRADA! Inserção: Mover OP06 da pos 5 para pos 7 | Custo: R$ 76770.00 -> R$ 76530.00 (-R$ 240.00)
+  [Iteração 12328] MELHORA ENCONTRADA! Inserção: Mover OP01 da pos 0 para pos 1 | Custo: R$ 76530.00 -> R$ 76140.00 (-R$ 390.00)
+  [Iteração 12369] MELHORA ENCONTRADA! Inserção: Mover OP04 da pos 2 para pos 3 | Custo: R$ 76140.00 -> R$ 75360.00 (-R$ 780.00)
+  [Iteração 12430] MELHORA ENCONTRADA! Inserção: Mover OP04 da pos 3 para pos 4 | Custo: R$ 75360.00 -> R$ 74940.00 (-R$ 420.00)
+  [Iteração 12492] MELHORA ENCONTRADA! Inserção: Mover OP13 da pos 3 para pos 5 | Custo: R$ 74940.00 -> R$ 74130.00 (-R$ 810.00)
+  [Iteração 12593] MELHORA ENCONTRADA! Inserção: Mover OP13 da pos 5 para pos 6 | Custo: R$ 74130.00 -> R$ 72840.00 (-R$ 1290.00)
+  [Iteração 12598] MELHORA ENCONTRADA! Inserção: Mover OP12 da pos 0 para pos 5 | Custo: R$ 72840.00 -> R$ 69030.00 (-R$ 3810.00)
+  [Iteração 12602] MELHORA ENCONTRADA! Inserção: Mover OP01 da pos 0 para pos 4 | Custo: R$ 69030.00 -> R$ 67590.00 (-R$ 1440.00)
+  [Iteração 12605] MELHORA ENCONTRADA! Inserção: Mover OP03 da pos 0 para pos 3 | Custo: R$ 67590.00 -> R$ 65940.00 (-R$ 1650.00)
+  [Iteração 12608] MELHORA ENCONTRADA! Inserção: Mover OP04 da pos 0 para pos 3 | Custo: R$ 65940.00 -> R$ 65730.00 (-R$ 210.00)
+  [Iteração 12669] MELHORA ENCONTRADA! Inserção: Mover OP04 da pos 3 para pos 4 | Custo: R$ 65730.00 -> R$ 63420.00 (-R$ 2310.00)
+  [Iteração 12727] MELHORA ENCONTRADA! Inserção: Mover OP01 da pos 3 para pos 0 | Custo: R$ 63420.00 -> R$ 61110.00 (-R$ 2310.00)
+  [Iteração 12848] MELHORA ENCONTRADA! Inserção: Mover OP13 da pos 6 para pos 7 | Custo: R$ 61110.00 -> R$ 58770.00 (-R$ 2340.00)
+  [Iteração 13089] MELHORA ENCONTRADA! Inserção: Mover OP02 da pos 12 para pos 13 | Custo: R$ 58770.00 -> R$ 57780.00 (-R$ 990.00)
+  [Iteração 13371] MELHORA ENCONTRADA! Inserção: Mover OP17 da pos 14 para pos 16 | Custo: R$ 57780.00 -> R$ 56400.00 (-R$ 1380.00)
+  [Iteração 13587] MELHORA ENCONTRADA! Inserção: Mover OP16 da pos 11 para pos 6 | Custo: R$ 56400.00 -> R$ 54810.00 (-R$ 1590.00)
+  [Iteração 13868] MELHORA ENCONTRADA! Inserção: Mover OP05 da pos 14 para pos 15 | Custo: R$ 54810.00 -> R$ 54090.00 (-R$ 720.00)
+  [Iteração 14209] MELHORA ENCONTRADA! Inserção: Mover OP20 da pos 17 para pos 18 | Custo: R$ 54090.00 -> R$ 54000.00 (-R$ 90.00)
+==> SUCESSO em N1 (INSERCAO): Custo reduzido para R$ 54000.00 (-R$ 164640.00). Reiniciando para N1 (SWAP).
+
+--- [Etapa 2] Explorando Vizinhança N1: INSERCAO ---
+==> SEM MELHORIAS em N1 (INSERCAO). Avançando para próxima vizinhança.
+
+Fim do VND: Nenhuma vizinhança possui soluções melhores. Ótimo Local atingido!
+
+=================================================================
+RESUMO FINAL DA EXECUÇÃO:
+Cenário: cenario_5.csv
+Construtiva: Estratégia B (Parcialmente Gulosa RCL alpha=0.7)
+Refinamento: VND (Variable Neighborhood Descent) (Insercao)
+Custo Inicial: R$ 218640.00
+Custo Final: R$ 54000.00
+Redução %: 75.30%
+Tempo Execução: 0.6622 s
+Iterações: 14969
+Sequência: OP01 -> OP18 -> OP07 -> OP03 -> OP04 -> OP12 -> OP16 -> OP06 -> OP13 -> OP09 -> OP10 -> OP11 -> OP15 -> OP02 -> OP19 -> OP05 -> OP17 -> OP14 -> OP20 -> OP08
+Gráfico Gantt: resultados/cenario_5/gantt_cenario5_aleatorio_a0.7_insercao.png
+=================================================================

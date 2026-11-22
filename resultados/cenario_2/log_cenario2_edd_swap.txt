@@ -1,0 +1,41 @@
+=== CONSTRUÇÃO: ESTRATÉGIA A (EDD + SETUP) ===
+Passo 1: Selecionada 1ª OP pelo menor Due Date: OP01 (Família F1, d_j = 15.0h)
+Passo 2: Adicionada OP OP04 (Família F1, Score = 20.00)
+Passo 3: Adicionada OP OP07 (Família F1, Score = 28.00)
+Passo 4: Adicionada OP OP10 (Família F1, Score = 40.00)
+Passo 5: Adicionada OP OP03 (Família F2, Score = 122.00)
+Passo 6: Adicionada OP OP05 (Família F2, Score = 25.00)
+Passo 7: Adicionada OP OP09 (Família F2, Score = 32.00)
+Passo 8: Adicionada OP OP12 (Família F2, Score = 38.00)
+Passo 9: Adicionada OP OP02 (Família F3, Score = 93.00)
+Passo 10: Adicionada OP OP06 (Família F3, Score = 30.00)
+Passo 11: Adicionada OP OP08 (Família F3, Score = 35.00)
+Passo 12: Adicionada OP OP11 (Família F3, Score = 42.00)
+
+=== REFINAMENTO: VARIABLE NEIGHBORHOOD DESCENT (VND) ===
+Custo de Partida para o VND: R$ 32040.00
+
+--- [Etapa 1] Explorando Vizinhança N1: SWAP ---
+  [Iteração 22] MELHORA ENCONTRADA! Swap pos (2 <-> 3): OP07 <-> OP10 | Custo: R$ 32040.00 -> R$ 31860.00 (-R$ 180.00)
+  [Iteração 68] MELHORA ENCONTRADA! Swap pos (5 <-> 6): OP05 <-> OP09 | Custo: R$ 31860.00 -> R$ 31050.00 (-R$ 810.00)
+  [Iteração 115] MELHORA ENCONTRADA! Swap pos (5 <-> 7): OP09 <-> OP12 | Custo: R$ 31050.00 -> R$ 28710.00 (-R$ 2340.00)
+==> SUCESSO em N1 (SWAP): Custo reduzido para R$ 28710.00 (-R$ 3330.00). Reiniciando para N1 (SWAP).
+
+--- [Etapa 2] Explorando Vizinhança N1: SWAP ---
+==> SEM MELHORIAS em N1 (SWAP). Avançando para próxima vizinhança.
+
+Fim do VND: Nenhuma vizinhança possui soluções melhores. Ótimo Local atingido!
+
+=================================================================
+RESUMO FINAL DA EXECUÇÃO:
+Cenário: cenario_2.csv
+Construtiva: Estratégia A (EDD + Setup)
+Refinamento: VND (Variable Neighborhood Descent) (Swap)
+Custo Inicial: R$ 32040.00
+Custo Final: R$ 28710.00
+Redução %: 10.39%
+Tempo Execução: 0.0109 s
+Iterações: 247
+Sequência: OP01 -> OP04 -> OP10 -> OP07 -> OP03 -> OP12 -> OP05 -> OP09 -> OP02 -> OP06 -> OP08 -> OP11
+Gráfico Gantt: resultados/cenario_2/gantt_cenario2_edd_swap.png
+=================================================================

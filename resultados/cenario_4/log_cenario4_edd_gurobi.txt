@@ -1,0 +1,46 @@
+=== CONSTRUÇÃO: ESTRATÉGIA A (EDD + SETUP) ===
+Passo 1: Selecionada 1ª OP pelo menor Due Date: OP02 (Família F2, d_j = 35.0h)
+Passo 2: Adicionada OP OP05 (Família F2, Score = 45.00)
+Passo 3: Adicionada OP OP08 (Família F2, Score = 80.00)
+Passo 4: Adicionada OP OP11 (Família F2, Score = 85.00)
+Passo 5: Adicionada OP OP14 (Família F2, Score = 90.00)
+Passo 6: Adicionada OP OP20 (Família F2, Score = 105.00)
+Passo 7: Adicionada OP OP17 (Família F2, Score = 110.00)
+Passo 8: Adicionada OP OP03 (Família F3, Score = 125.00)
+Passo 9: Adicionada OP OP09 (Família F3, Score = 60.00)
+Passo 10: Adicionada OP OP06 (Família F3, Score = 70.00)
+Passo 11: Adicionada OP OP12 (Família F3, Score = 95.00)
+Passo 12: Adicionada OP OP15 (Família F3, Score = 100.00)
+Passo 13: Adicionada OP OP18 (Família F3, Score = 120.00)
+Passo 14: Adicionada OP OP21 (Família F3, Score = 130.00)
+Passo 15: Adicionada OP OP24 (Família F3, Score = 140.00)
+Passo 16: Adicionada OP OP01 (Família F1, Score = 240.00)
+Passo 17: Adicionada OP OP07 (Família F1, Score = 55.00)
+Passo 18: Adicionada OP OP04 (Família F1, Score = 65.00)
+Passo 19: Adicionada OP OP13 (Família F1, Score = 70.00)
+Passo 20: Adicionada OP OP10 (Família F1, Score = 75.00)
+Passo 21: Adicionada OP OP16 (Família F1, Score = 85.00)
+Passo 22: Adicionada OP OP19 (Família F1, Score = 95.00)
+Passo 23: Adicionada OP OP22 (Família F1, Score = 115.00)
+Passo 24: Adicionada OP OP25 (Família F1, Score = 135.00)
+Passo 25: Adicionada OP OP23 (Família F2, Score = 225.00)
+
+=== RESOLUÇÃO EXATA VIA GUROBI OPTIMIZER (MILP) ===
+Status Otimização : 9
+Iterações Simplex : 122627
+MIP Gap           : 90.77%
+Custo Ótimo       : R$ 58320.00
+
+=================================================================
+RESUMO FINAL DA EXECUÇÃO:
+Cenário: cenario_4.csv
+Construtiva: Estratégia A (EDD + Setup)
+Refinamento: Gurobi Optimizer (Exato MILP) (N/A (Modelo Exato))
+Custo Inicial: R$ 204360.00
+Custo Final: R$ 58320.00
+Redução %: 71.46%
+Tempo Execução: 60.3096 s
+Iterações: 122627
+Sequência: OP02 -> OP01 -> OP05 -> OP19 -> OP03 -> OP07 -> OP09 -> OP04 -> OP06 -> OP13 -> OP10 -> OP08 -> OP11 -> OP16 -> OP14 -> OP12 -> OP17 -> OP15 -> OP20 -> OP22 -> OP18 -> OP23 -> OP21 -> OP25 -> OP24
+Gráfico Gantt: resultados/cenario_4/gantt_cenario4_edd_gurobi.png
+=================================================================

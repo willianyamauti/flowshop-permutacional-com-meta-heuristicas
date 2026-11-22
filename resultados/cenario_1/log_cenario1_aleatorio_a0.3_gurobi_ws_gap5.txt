@@ -1,0 +1,32 @@
+=== CONSTRUÇÃO: ESTRATÉGIA B (PARCIALMENTE GULOSA - RCL alpha=0.3) ===
+Passo 1: C_min=R$1800.00, C_max=R$6480.00, Limite RCL=R$3204.00 | Tamanho RCL=2 | Escolhida: OP01
+Passo 2: C_min=R$3780.00, C_max=R$8280.00, Limite RCL=R$5130.00 | Tamanho RCL=1 | Escolhida: OP02
+Passo 3: C_min=R$5760.00, C_max=R$8550.00, Limite RCL=R$6597.00 | Tamanho RCL=3 | Escolhida: OP05
+Passo 4: C_min=R$7650.00, C_max=R$10170.00, Limite RCL=R$8406.00 | Tamanho RCL=3 | Escolhida: OP07
+Passo 5: C_min=R$8730.00, C_max=R$11070.00, Limite RCL=R$9432.00 | Tamanho RCL=1 | Escolhida: OP08
+Passo 6: C_min=R$9030.00, C_max=R$11250.00, Limite RCL=R$9696.00 | Tamanho RCL=1 | Escolhida: OP03
+Passo 7: C_min=R$9120.00, C_max=R$10470.00, Limite RCL=R$9525.00 | Tamanho RCL=1 | Escolhida: OP04
+Passo 8: C_min=R$9660.00, C_max=R$9660.00, Limite RCL=R$9660.00 | Tamanho RCL=1 | Escolhida: OP06
+
+=== RESOLUÇÃO EXATA VIA GUROBI (MILP + WARM START VND | TimeLimit=1800s | GapAlvo=5.0%) ===
+Warm Start Heurístico : Base R$ 9660.00 -> Pós-VND R$ 7920.00 (135 aval. VND)
+Status Otimização : 2
+Nós Explorados    : 4455
+Iterações Simplex : 79616
+MIP Gap Alvo      : 5.00%
+MIP Gap Final     : 0.00%
+Custo Final       : R$ 7920.00
+
+=================================================================
+RESUMO FINAL DA EXECUÇÃO:
+Cenário: cenario_1.csv
+Construtiva: Estratégia B (Parcialmente Gulosa RCL alpha=0.3)
+Refinamento: Gurobi Optimizer (Exato MILP + Warm Start | Gap<=5.0% | 1800s) (Warm Start VND)
+Custo Inicial: R$ 9660.00
+Custo Final: R$ 7920.00
+Redução %: 18.01%
+Tempo Execução: 16.3252 s
+Iterações: 79616
+Sequência: OP04 -> OP02 -> OP01 -> OP05 -> OP08 -> OP03 -> OP07 -> OP06
+Gráfico Gantt: resultados/cenario_1/gantt_cenario1_aleatorio_a0.3_gurobi_ws_gap5.png
+=================================================================

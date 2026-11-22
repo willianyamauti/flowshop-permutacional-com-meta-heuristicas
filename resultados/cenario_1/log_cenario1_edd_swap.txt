@@ -1,0 +1,40 @@
+=== CONSTRUÇÃO: ESTRATÉGIA A (EDD + SETUP) ===
+Passo 1: Selecionada 1ª OP pelo menor Due Date: OP02 (Família F2, d_j = 18.0h)
+Passo 2: Adicionada OP OP05 (Família F2, Score = 25.00)
+Passo 3: Adicionada OP OP08 (Família F2, Score = 28.00)
+Passo 4: Adicionada OP OP04 (Família F3, Score = 115.00)
+Passo 5: Adicionada OP OP06 (Família F3, Score = 45.00)
+Passo 6: Adicionada OP OP01 (Família F1, Score = 222.00)
+Passo 7: Adicionada OP OP03 (Família F1, Score = 30.00)
+Passo 8: Adicionada OP OP07 (Família F1, Score = 35.00)
+
+=== REFINAMENTO: VARIABLE NEIGHBORHOOD DESCENT (VND) ===
+Custo de Partida para o VND: R$ 19830.00
+
+--- [Etapa 1] Explorando Vizinhança N1: SWAP ---
+  [Iteração 19] MELHORA ENCONTRADA! Swap pos (3 <-> 4): OP04 <-> OP06 | Custo: R$ 19830.00 -> R$ 19440.00 (-R$ 390.00)
+  [Iteração 35] MELHORA ENCONTRADA! Swap pos (2 <-> 5): OP08 <-> OP01 | Custo: R$ 19440.00 -> R$ 19410.00 (-R$ 30.00)
+  [Iteração 37] MELHORA ENCONTRADA! Swap pos (0 <-> 2): OP02 <-> OP01 | Custo: R$ 19410.00 -> R$ 15450.00 (-R$ 3960.00)
+  [Iteração 45] MELHORA ENCONTRADA! Swap pos (1 <-> 2): OP05 <-> OP02 | Custo: R$ 15450.00 -> R$ 15360.00 (-R$ 90.00)
+  [Iteração 60] MELHORA ENCONTRADA! Swap pos (2 <-> 4): OP05 <-> OP04 | Custo: R$ 15360.00 -> R$ 14550.00 (-R$ 810.00)
+  [Iteração 74] MELHORA ENCONTRADA! Swap pos (2 <-> 3): OP04 <-> OP06 | Custo: R$ 14550.00 -> R$ 13860.00 (-R$ 690.00)
+==> SUCESSO em N1 (SWAP): Custo reduzido para R$ 13860.00 (-R$ 5970.00). Reiniciando para N1 (SWAP).
+
+--- [Etapa 2] Explorando Vizinhança N1: SWAP ---
+==> SEM MELHORIAS em N1 (SWAP). Avançando para próxima vizinhança.
+
+Fim do VND: Nenhuma vizinhança possui soluções melhores. Ótimo Local atingido!
+
+=================================================================
+RESUMO FINAL DA EXECUÇÃO:
+Cenário: cenario_1.csv
+Construtiva: Estratégia A (EDD + Setup)
+Refinamento: VND (Variable Neighborhood Descent) (Swap)
+Custo Inicial: R$ 19830.00
+Custo Final: R$ 13860.00
+Redução %: 30.11%
+Tempo Execução: 0.0023 s
+Iterações: 130
+Sequência: OP01 -> OP02 -> OP06 -> OP04 -> OP05 -> OP08 -> OP03 -> OP07
+Gráfico Gantt: resultados/cenario_1/gantt_cenario1_edd_swap.png
+=================================================================
