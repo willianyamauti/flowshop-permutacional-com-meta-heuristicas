@@ -9,51 +9,98 @@ import time
 import gurobipy as gp
 from gurobipy import GRB
 
+_CACHE_INSTANCIAS = {}
+
+
+def _compilar_instancia(dados, matriz_setup, n_maq):
+    """Pré-compila estruturas numéricas para avaliação rápida de sequências."""
+    chave = (
+        id(dados),
+        len(dados),
+        n_maq,
+        tuple((f1, tuple(sorted(matriz_setup[f1].items()))) for f1 in sorted(matriz_setup.keys())),
+    )
+    if chave in _CACHE_INSTANCIAS:
+        return _CACHE_INSTANCIAS[chave]
+
+    ops = [x['op'] for x in dados]
+    op_to_idx = {op: i for i, op in enumerate(ops)}
+    fams_unicas = sorted(set(x['familia'] for x in dados) | set(matriz_setup.keys()))
+    fam_to_idx = {f: i for i, f in enumerate(fams_unicas)}
+
+    p_list = [tuple(float(v) for v in x['p']) for x in dados]
+    fam_list = [fam_to_idx[x['familia']] for x in dados]
+    d_list = [float(x['d']) for x in dados]
+    s_mat = [
+        [float(matriz_setup[f1][f2]) for f2 in fams_unicas]
+        for f1 in fams_unicas
+    ]
+
+    compilado = {
+        'ops': ops,
+        'op_to_idx': op_to_idx,
+        'p_list': p_list,
+        'fam_list': fam_list,
+        'd_list': d_list,
+        's_mat': s_mat,
+    }
+    _CACHE_INSTANCIAS[chave] = compilado
+    return compilado
+
+
+def _avaliar_indices(seq_idx, inst, c_atraso, c_estoque, n_maq):
+    """Avalia uma permutação representada por índices inteiros."""
+    p_list = inst['p_list']
+    fam_list = inst['fam_list']
+    d_list = inst['d_list']
+    s_mat = inst['s_mat']
+
+    c_prev = [0.0] * n_maq
+    custo_total = 0.0
+
+    for k, idx in enumerate(seq_idx):
+        p_curr = p_list[idx]
+        if k == 0:
+            acc = 0.0
+            for m in range(n_maq):
+                acc += p_curr[m]
+                c_prev[m] = acc
+        else:
+            s = s_mat[fam_list[seq_idx[k - 1]]][fam_list[idx]]
+            c_prev[0] = c_prev[0] + s + p_curr[0]
+            for m in range(1, n_maq):
+                left = c_prev[m - 1]
+                top = c_prev[m] + s
+                c_prev[m] = (left if left > top else top) + p_curr[m]
+
+        diff = c_prev[n_maq - 1] - d_list[idx]
+        if diff > 0.0:
+            custo_total += c_atraso * diff
+        elif diff < 0.0:
+            custo_total -= c_estoque * diff
+
+    return custo_total
+
 
 def avaliar_sequencia(seq, dados, matriz_setup, c_atraso, c_estoque, n_maq=4):
     """Simula o sequenciamento e calcula o Custo Total (Atraso + Estoque)."""
-    ops_dict = {x['op']: x for x in dados}
-    n = len(seq)
-
-    C = [[0.0] * n_maq for _ in range(n)]
-
-    for k in range(n):
-        op_curr = seq[k]
-        dados_curr = ops_dict[op_curr]
-        p_curr = dados_curr['p']
-
-        if k == 0:
-            C[0][0] = p_curr[0]
-            for m in range(1, n_maq):
-                C[0][m] = C[0][m - 1] + p_curr[m]
-        else:
-            op_prev = seq[k - 1]
-            fam_prev = ops_dict[op_prev]['familia']
-            fam_curr = dados_curr['familia']
-            setup_time = matriz_setup[fam_prev][fam_curr]
-
-            C[k][0] = C[k - 1][0] + setup_time + p_curr[0]
-            for m in range(1, n_maq):
-                C[k][m] = max(C[k][m - 1], C[k - 1][m] + setup_time) + p_curr[m]
-
-    custo_total = 0.0
-    for k in range(n):
-        op = seq[k]
-        d_j = ops_dict[op]['d']
-        c_final = C[k][n_maq - 1]
-        atraso = max(0.0, c_final - d_j)
-        estoque = max(0.0, d_j - c_final)
-        custo_total += (c_atraso * atraso) + (c_estoque * estoque)
-
-    return custo_total
+    if not seq:
+        return 0.0
+    inst = _compilar_instancia(dados, matriz_setup, n_maq)
+    op_to_idx = inst['op_to_idx']
+    seq_idx = [op_to_idx[op] for op in seq]
+    return _avaliar_indices(seq_idx, inst, c_atraso, c_estoque, n_maq)
 
 
 # -----------------------------------------------------------------------------
 # ESTRATÉGIAS CONSTRUTIVAS
 # -----------------------------------------------------------------------------
-def construtiva_edd_setup(dados, matriz_setup, peso_setup=50.0):
-    """Estratégia A: EDD ponderado pelo tempo de setup entre famílias."""
-    log = ["=== CONSTRUÇÃO: ESTRATÉGIA A (EDD + SETUP) ==="]
+def construtiva_edd_setup(dados, matriz_setup, peso_setup=5.0):
+    """
+    Estratégia A: EDD ponderado pelo tempo de setup entre famílias.
+    peso_setup=5.0 equilibra a economia de setup com a janela de entrega (d_j).
+    """
+    log = [f"=== CONSTRUÇÃO: ESTRATÉGIA A (EDD + SETUP | peso={peso_setup:.1f}) ==="]
     nao_agendados = dados.copy()
     seq = []
 
@@ -61,8 +108,10 @@ def construtiva_edd_setup(dados, matriz_setup, peso_setup=50.0):
     primeira = nao_agendados.pop(0)
     seq.append(primeira['op'])
     fam_anterior = primeira['familia']
-    log.append(f"Passo 1: Selecionada 1ª OP pelo menor Due Date: "
-               f"{primeira['op']} (Família {fam_anterior}, d_j = {primeira['d']}h)")
+    log.append(
+        f"Passo 1: Selecionada 1ª OP pelo menor Due Date: "
+        f"{primeira['op']} (Família {fam_anterior}, d_j = {primeira['d']}h)"
+    )
 
     passo = 2
     while nao_agendados:
@@ -79,8 +128,10 @@ def construtiva_edd_setup(dados, matriz_setup, peso_setup=50.0):
                 melhor_cand = cand
 
         seq.append(melhor_cand['op'])
-        log.append(f"Passo {passo}: Adicionada OP {melhor_cand['op']} "
-                   f"(Família {melhor_cand['familia']}, Score = {melhor_score:.2f})")
+        log.append(
+            f"Passo {passo}: Adicionada OP {melhor_cand['op']} "
+            f"(Família {melhor_cand['familia']}, Score = {melhor_score:.2f})"
+        )
         fam_anterior = melhor_cand['familia']
         nao_agendados.remove(melhor_cand)
         passo += 1
@@ -89,37 +140,40 @@ def construtiva_edd_setup(dados, matriz_setup, peso_setup=50.0):
 
 
 def construtiva_parcialmente_gulosa(dados, matriz_setup, c_atraso, c_estoque, n_maq, alpha):
-    """Estratégia B: Parcialmente Gulosa (RCL / GRASP)."""
+    """Estratégia B: Parcialmente Gulosa (RCL / GRASP) com avaliação incremental."""
     log = [f"=== CONSTRUÇÃO: ESTRATÉGIA B (PARCIALMENTE GULOSA - RCL alpha={alpha}) ==="]
-    nao_agendados = [x['op'] for x in dados]
-    seq = []
+    inst = _compilar_instancia(dados, matriz_setup, n_maq)
+    ops = inst['ops']
+    nao_agendados = list(range(len(ops)))
+    seq_idx = []
 
     passo = 1
     while nao_agendados:
         custos_candidatos = []
-        for cand in nao_agendados:
-            seq_teste = seq + [cand]
-            custo = avaliar_sequencia(seq_teste, dados, matriz_setup, c_atraso, c_estoque, n_maq)
-            custos_candidatos.append((cand, custo))
+        for cand_idx in nao_agendados:
+            custo = _avaliar_indices(seq_idx + [cand_idx], inst, c_atraso, c_estoque, n_maq)
+            custos_candidatos.append((cand_idx, custo))
 
         custos_candidatos.sort(key=lambda x: x[1])
         c_min = custos_candidatos[0][1]
         c_max = custos_candidatos[-1][1]
         limite = c_min + alpha * (c_max - c_min)
-        rcl = [cand for cand, custo in custos_candidatos if custo <= limite]
+        rcl = [cand_idx for cand_idx, custo in custos_candidatos if custo <= limite]
 
-        escolhido = random.choice(rcl)
-        seq.append(escolhido)
-        nao_agendados.remove(escolhido)
-        log.append(f"Passo {passo}: C_min=R${c_min:.2f}, C_max=R${c_max:.2f}, "
-                   f"Limite RCL=R${limite:.2f} | Tamanho RCL={len(rcl)} | Escolhida: {escolhido}")
+        escolhido_idx = random.choice(rcl)
+        seq_idx.append(escolhido_idx)
+        nao_agendados.remove(escolhido_idx)
+        log.append(
+            f"Passo {passo}: C_min=R${c_min:.2f}, C_max=R${c_max:.2f}, "
+            f"Limite RCL=R${limite:.2f} | Tamanho RCL={len(rcl)} | Escolhida: {ops[escolhido_idx]}"
+        )
         passo += 1
 
-    return seq, log
+    return [ops[i] for i in seq_idx], log
 
 
 # -----------------------------------------------------------------------------
-# ESTRUTURAS DE VIZINHANÇA
+# ESTRUTURAS DE VIZINHANÇA (SWAP, INSERÇÃO E BLOCO DE FAMÍLIA)
 # -----------------------------------------------------------------------------
 def gerar_vizinhos_swap(seq):
     vizinhos = []
@@ -147,9 +201,28 @@ def gerar_vizinhos_insercao(seq):
     return vizinhos
 
 
+def gerar_vizinhos_bloco(seq, tam_bloco=2):
+    """Move blocos contíguos de tamanho `tam_bloco` preservando agrupamentos de família."""
+    vizinhos = []
+    n = len(seq)
+    if n <= tam_bloco:
+        return vizinhos
+    for i in range(n - tam_bloco + 1):
+        bloco = seq[i:i + tam_bloco]
+        restante = seq[:i] + seq[i + tam_bloco:]
+        for j in range(len(restante) + 1):
+            if j == i:
+                continue
+            vizinho = restante[:j] + bloco + restante[j:]
+            mov_desc = f"Bloco({'-'.join(bloco)}): pos {i} -> {j}"
+            vizinhos.append((vizinho, mov_desc))
+    return vizinhos
+
+
 OBTER_VIZINHOS = {
     'swap': gerar_vizinhos_swap,
     'insercao': gerar_vizinhos_insercao,
+    'bloco': gerar_vizinhos_bloco,
 }
 
 
@@ -157,10 +230,13 @@ OBTER_VIZINHOS = {
 # BUSCA LOCAL & VND
 # -----------------------------------------------------------------------------
 def hill_climbing(seq_inicial, dados, matriz_setup, c_atraso, c_estoque,
-                  n_maq=4, estrutura='swap'):
+                  n_maq=4, estrutura='insercao'):
     log_sub = []
+    inst = _compilar_instancia(dados, matriz_setup, n_maq)
+    op_to_idx = inst['op_to_idx']
+
     seq_atual = seq_inicial.copy()
-    custo_atual = avaliar_sequencia(seq_atual, dados, matriz_setup, c_atraso, c_estoque, n_maq)
+    custo_atual = _avaliar_indices([op_to_idx[o] for o in seq_atual], inst, c_atraso, c_estoque, n_maq)
 
     func_vizinhos = OBTER_VIZINHOS[estrutura]
     melhorou = True
@@ -172,12 +248,14 @@ def hill_climbing(seq_inicial, dados, matriz_setup, c_atraso, c_estoque,
 
         for vizinho, mov_desc in vizinhos:
             iter_count += 1
-            custo_viz = avaliar_sequencia(vizinho, dados, matriz_setup, c_atraso, c_estoque, n_maq)
+            custo_viz = _avaliar_indices([op_to_idx[o] for o in vizinho], inst, c_atraso, c_estoque, n_maq)
 
             if custo_viz < custo_atual - 1e-6:
                 diff = custo_atual - custo_viz
-                log_sub.append(f"  [Iteração {iter_count}] MELHORA ENCONTRADA! {mov_desc} | "
-                               f"Custo: R$ {custo_atual:.2f} -> R$ {custo_viz:.2f} (-R$ {diff:.2f})")
+                log_sub.append(
+                    f"  [Iteração {iter_count}] MELHORA ENCONTRADA! {mov_desc} | "
+                    f"Custo: R$ {custo_atual:.2f} -> R$ {custo_viz:.2f} (-R$ {diff:.2f})"
+                )
                 custo_atual = custo_viz
                 seq_atual = vizinho
                 melhorou = True
@@ -188,7 +266,7 @@ def hill_climbing(seq_inicial, dados, matriz_setup, c_atraso, c_estoque,
 
 def vnd(seq_inicial, dados, matriz_setup, c_atraso, c_estoque, n_maq=4, estruturas=None):
     if estruturas is None or len(estruturas) == 0:
-        estruturas = ['swap', 'insercao']
+        estruturas = ['insercao', 'swap', 'bloco']
 
     log_vnd = ["\n=== REFINAMENTO: VARIABLE NEIGHBORHOOD DESCENT (VND) ==="]
     seq_atual = seq_inicial.copy()
@@ -211,14 +289,18 @@ def vnd(seq_inicial, dados, matriz_setup, c_atraso, c_estoque, n_maq=4, estrutur
 
         if custo_linha < custo_atual - 1e-6:
             ganho = custo_atual - custo_linha
-            log_vnd.append(f"==> SUCESSO em N{k + 1} ({nome_viz.upper()}): Custo reduzido para "
-                           f"R$ {custo_linha:.2f} (-R$ {ganho:.2f}). Reiniciando para N1 (SWAP).\n")
+            log_vnd.append(
+                f"==> SUCESSO em N{k + 1} ({nome_viz.upper()}): Custo reduzido para "
+                f"R$ {custo_linha:.2f} (-R$ {ganho:.2f}). Reiniciando para N1 ({estruturas[0].upper()}).\n"
+            )
             seq_atual = seq_linha
             custo_atual = custo_linha
             k = 0
         else:
-            log_vnd.append(f"==> SEM MELHORIAS em N{k + 1} ({nome_viz.upper()}). "
-                           f"Avançando para próxima vizinhança.\n")
+            log_vnd.append(
+                f"==> SEM MELHORIAS em N{k + 1} ({nome_viz.upper()}). "
+                f"Avançando para próxima vizinhança.\n"
+            )
             k += 1
 
         passo_vnd += 1
@@ -231,13 +313,13 @@ def vnd(seq_inicial, dados, matriz_setup, c_atraso, c_estoque, n_maq=4, estrutur
 # META-HEURÍSTICA: GRASP (RCL + VND)
 # -----------------------------------------------------------------------------
 def grasp(dados, matriz_setup, c_atraso, c_estoque, n_maq=4,
-          alpha=0.3, max_iter=30, estruturas=None, seq_inicial=None):
+          alpha=0.3, max_iter=100, estruturas=None, seq_inicial=None):
     """
     Greedy Randomized Adaptive Search Procedure (GRASP):
     Alterna construção aleatorizada gulosa (RCL) e busca local (VND).
     """
     if estruturas is None or len(estruturas) == 0:
-        estruturas = ['swap', 'insercao']
+        estruturas = ['insercao', 'swap', 'bloco']
 
     log_grasp = [
         f"\n=== META-HEURÍSTICA: GRASP (alpha={alpha}, max_iter={max_iter}, VND={estruturas}) ==="
@@ -247,7 +329,6 @@ def grasp(dados, matriz_setup, c_atraso, c_estoque, n_maq=4,
     melhor_custo = float('inf')
     total_iteracoes = 0
 
-    # Caso uma solução inicial já tenha sido fornecida pelo menu, avalia e refina na iter 0
     if seq_inicial is not None:
         c_ini = avaliar_sequencia(seq_inicial, dados, matriz_setup, c_atraso, c_estoque, n_maq)
         seq_ref, custo_ref, sub_iter, _ = vnd(
@@ -278,12 +359,12 @@ def grasp(dados, matriz_setup, c_atraso, c_estoque, n_maq=4,
             melhor_custo = custo_ref
             melhor_seq = seq_ref.copy()
             log_grasp.append(
-                f"[Iteração {it:02d}/{max_iter}] NOVO MELHOR! RCL: R$ {custo_cand:.2f} -> "
+                f"[Iteração {it:03d}/{max_iter}] NOVO MELHOR! RCL: R$ {custo_cand:.2f} -> "
                 f"VND: R$ {custo_ref:.2f}" + (f" (-R$ {ganho:.2f})" if ganho > 0 else "")
             )
-        else:
+        elif it % 10 == 0 or it == max_iter:
             log_grasp.append(
-                f"[Iteração {it:02d}/{max_iter}] RCL: R$ {custo_cand:.2f} -> "
+                f"[Iteração {it:03d}/{max_iter}] RCL: R$ {custo_cand:.2f} -> "
                 f"VND: R$ {custo_ref:.2f} (Melhor global: R$ {melhor_custo:.2f})"
             )
 
@@ -292,18 +373,25 @@ def grasp(dados, matriz_setup, c_atraso, c_estoque, n_maq=4,
 
 
 # -----------------------------------------------------------------------------
-# META-HEURÍSTICA: SIMULATED ANNEALING (SA)
+# META-HEURÍSTICA: SIMULATED ANNEALING (SA AUTO-CALIBRADO)
 # -----------------------------------------------------------------------------
-def _gerar_vizinho_aleatorio(seq, estruturas):
-    """Gera um único vizinho aleatório em O(n) escolhendo entre swap e inserção."""
-    n = len(seq)
-    viz = seq.copy()
+def _gerar_vizinho_aleatorio_idx(seq_idx, estruturas):
+    """Gera um vizinho aleatório diretamente sobre índices inteiros."""
+    n = len(seq_idx)
+    viz = seq_idx.copy()
     if n < 2:
         return viz, "Sem movimento"
 
     est = random.choice(estruturas)
-    i, j = random.sample(range(n), 2)
+    if est == 'bloco' and n >= 4:
+        i = random.randint(0, n - 2)
+        bloco = viz[i:i + 2]
+        rest = viz[:i] + viz[i + 2:]
+        j = random.randint(0, len(rest))
+        viz = rest[:j] + bloco + rest[j:]
+        return viz, f"Bloco ({i} -> {j})"
 
+    i, j = random.sample(range(n), 2)
     if est == 'swap':
         viz[i], viz[j] = viz[j], viz[i]
         return viz, f"Swap ({i} <-> {j})"
@@ -313,23 +401,49 @@ def _gerar_vizinho_aleatorio(seq, estruturas):
         return viz, f"Inserção ({i} -> {j})"
 
 
+def _calibrar_temperatura_inicial(seq_idx, custo_inicial, inst, c_atraso, c_estoque, n_maq, estruturas):
+    """Estima T0 com base na magnitude real das variações de custo do cenário."""
+    deltas_positivos = []
+    for _ in range(30):
+        viz, _ = _gerar_vizinho_aleatorio_idx(seq_idx, estruturas)
+        cv = _avaliar_indices(viz, inst, c_atraso, c_estoque, n_maq)
+        if cv > custo_inicial + 1e-6:
+            deltas_positivos.append(cv - custo_inicial)
+
+    if not deltas_positivos:
+        return 2000.0
+    media_delta = sum(deltas_positivos) / len(deltas_positivos)
+    # Calibra T0 para aceitar ~45% de pioras médias no início
+    return max(500.0, -media_delta / math.log(0.45))
+
+
 def simulated_annealing(seq_inicial, dados, matriz_setup, c_atraso, c_estoque,
-                        n_maq=4, temp_inicial=2000.0, temp_final=1.0,
+                        n_maq=4, temp_inicial=None, temp_final=1.0,
                         taxa_resfriamento=0.95, iter_por_temp=50, estruturas=None):
     """
-    Simulated Annealing (SA) para Flowshop Permutacional com Setup.
+    Simulated Annealing (SA) auto-calibrado para Flowshop Permutacional com Setup.
     """
     if estruturas is None or len(estruturas) == 0:
-        estruturas = ['swap', 'insercao']
+        estruturas = ['insercao', 'swap', 'bloco']
 
-    seq_atual = seq_inicial.copy()
-    custo_atual = avaliar_sequencia(seq_atual, dados, matriz_setup, c_atraso, c_estoque, n_maq)
+    inst = _compilar_instancia(dados, matriz_setup, n_maq)
+    ops = inst['ops']
+    op_to_idx = inst['op_to_idx']
+
+    seq_atual = [op_to_idx[o] for o in seq_inicial]
+    custo_atual = _avaliar_indices(seq_atual, inst, c_atraso, c_estoque, n_maq)
+
+    if temp_inicial is None:
+        temp_inicial = _calibrar_temperatura_inicial(
+            seq_atual, custo_atual, inst, c_atraso, c_estoque, n_maq, estruturas
+        )
+        temp_final = max(1.0, temp_inicial * 0.001)
 
     melhor_seq = seq_atual.copy()
     melhor_custo = custo_atual
 
     log_sa = [
-        f"\n=== META-HEURÍSTICA: SIMULATED ANNEALING (T0={temp_inicial}, Tf={temp_final}, "
+        f"\n=== META-HEURÍSTICA: SIMULATED ANNEALING (T0={temp_inicial:.1f}, Tf={temp_final:.2f}, "
         f"alpha={taxa_resfriamento}, L={iter_por_temp}) ===",
         f"Custo Inicial: R$ {custo_atual:.2f}\n"
     ]
@@ -345,8 +459,8 @@ def simulated_annealing(seq_inicial, dados, matriz_setup, c_atraso, c_estoque,
 
         for _ in range(iter_por_temp):
             total_iteracoes += 1
-            vizinho, mov_desc = _gerar_vizinho_aleatorio(seq_atual, estruturas)
-            custo_viz = avaliar_sequencia(vizinho, dados, matriz_setup, c_atraso, c_estoque, n_maq)
+            vizinho, mov_desc = _gerar_vizinho_aleatorio_idx(seq_atual, estruturas)
+            custo_viz = _avaliar_indices(vizinho, inst, c_atraso, c_estoque, n_maq)
             delta = custo_viz - custo_atual
 
             if delta < -1e-6 or random.random() < math.exp(-delta / temp):
@@ -377,14 +491,11 @@ def simulated_annealing(seq_inicial, dados, matriz_setup, c_atraso, c_estoque,
         f"\nFim do Simulated Annealing: Melhor custo = R$ {melhor_custo:.2f} "
         f"(Movimentos de piora aceitos: {aceitos_piora})"
     )
-    return melhor_seq, melhor_custo, total_iteracoes, log_sa
+    return [ops[i] for i in melhor_seq], melhor_custo, total_iteracoes, log_sa
 
 
 # -----------------------------------------------------------------------------
-# MÉTODO EXATO - GUROBI (ACELERADO COM WARM START HEURÍSTICO + CUTOFF)
-# -----------------------------------------------------------------------------
-# -----------------------------------------------------------------------------
-# MÉTODO EXATO - GUROBI (WARM START VND + BARRA DE PROGRESSO + ALVO DE GAP)
+# MÉTODO EXATO - GUROBI (WARM START VND + LIMITANTES FÍSICOS + BARRA DE PROGRESSO)
 # -----------------------------------------------------------------------------
 def resolver_flowshop_gurobi(dados, matriz_setup, c_atraso, c_estoque,
                              n_maq=4, time_limit=1800, mip_gap_alvo=0.05,
@@ -392,9 +503,9 @@ def resolver_flowshop_gurobi(dados, matriz_setup, c_atraso, c_estoque,
                              seq_inicial=None, usar_vnd_warmstart=True):
     """
     Resolve o Flowshop Permutacional via Gurobi acelerado com:
-    1. Solução heurística refinada por VND (Swap + Inserção);
-    2. MIP Start completo (variáveis x, C, w, T, E);
-    3. Parada automática ao atingir mip_gap_alvo (padrão 5%) + barra de progresso.
+    1. Solução heurística refinada por VND (Inserção + Swap + Bloco);
+    2. Limitantes físicos inferiores e superiores por máquina/operação (Big-M reduzido);
+    3. MIP Start completo e parada automática ao atingir mip_gap_alvo (padrão 5%).
     """
     log_gurobi = [
         f"\n=== RESOLUÇÃO EXATA VIA GUROBI (MILP + WARM START VND | "
@@ -406,7 +517,7 @@ def resolver_flowshop_gurobi(dados, matriz_setup, c_atraso, c_estoque,
 
     # 1. Gera e refina a solução heurística de partida
     if seq_inicial is None:
-        seq_base, _ = construtiva_edd_setup(dados, matriz_setup, peso_setup=50.0)
+        seq_base, _ = construtiva_edd_setup(dados, matriz_setup, peso_setup=5.0)
     else:
         seq_base = seq_inicial.copy()
 
@@ -415,7 +526,7 @@ def resolver_flowshop_gurobi(dados, matriz_setup, c_atraso, c_estoque,
     if usar_vnd_warmstart:
         seq_ws, custo_ws, iter_vnd, _ = vnd(
             seq_base, dados, matriz_setup, c_atraso, c_estoque,
-            n_maq=n_maq, estruturas=['swap', 'insercao']
+            n_maq=n_maq, estruturas=['insercao', 'swap', 'bloco']
         )
         log_gurobi.append(
             f"Warm Start Heurístico : Base R$ {custo_base:.2f} -> Pós-VND R$ {custo_ws:.2f} "
@@ -426,19 +537,35 @@ def resolver_flowshop_gurobi(dados, matriz_setup, c_atraso, c_estoque,
         custo_ws = custo_base
         log_gurobi.append(f"Warm Start Heurístico : R$ {custo_ws:.2f}")
 
-    # 2. Construção do Modelo Matemático
+    # 2. Cálculo de Limitantes Físicos Estreitos (sem folga artificial de due date)
+    max_setup = max(max(matriz_setup[f1][f2] for f2 in matriz_setup[f1]) for f1 in matriz_setup)
+    soma_p = sum(sum(x['p']) for x in dados)
+    horizonte_ativo = soma_p + (n - 1) * max_setup
+
+    # Qualquer solução melhor que o VND respeita: C[j, last] <= d_j + custo_ws / c_atraso
+    max_atraso_possivel = (custo_ws / c_atraso) if c_atraso > 0 else horizonte_ativo
+    ub_c = {}
+    lb_c = {}
+    for j in ops:
+        p_j = ops_dict[j]['p']
+        d_j = ops_dict[j]['d']
+        ub_ultima = min(horizonte_ativo, d_j + max_atraso_possivel)
+        for m in range(n_maq):
+            lb_c[j, m] = sum(p_j[:m + 1])
+            cauda_p = sum(p_j[m + 1:])
+            ub_c[j, m] = max(lb_c[j, m], min(horizonte_ativo, ub_ultima - cauda_p))
+
+    big_m = max(ub_c.values()) + max_setup + max(max(x['p']) for x in dados)
+
+    # 3. Construção do Modelo Matemático
     model = gp.Model("Flowshop_Exact")
     model.Params.OutputFlag = 1 if verbose else 0
     model.Params.TimeLimit = time_limit
-    model.Params.MIPGap = mip_gap_alvo    # Para assim que Gap <= 5%
-    model.Params.MIPFocus = 1             # Foca em melhorar o limitante primal rapidamente
+    model.Params.MIPGap = mip_gap_alvo
+    model.Params.MIPFocus = 3             # Foca em elevar o Dual Bound (prova de otimalidade)
     model.Params.Cuts = 2                 # Cortes válidos agressivos
+    model.Params.Presolve = 2
     model.Params.Cutoff = custo_ws + 1e-3
-
-    max_setup = max(max(matriz_setup[f1][f2] for f2 in matriz_setup[f1]) for f1 in matriz_setup)
-    soma_p = sum(sum(x['p']) for x in dados)
-    horizonte = soma_p + (n - 1) * max_setup + max(x['d'] for x in dados)
-    big_m = horizonte + max_setup + max(max(x['p']) for x in dados)
 
     def setup(i, j):
         return matriz_setup[ops_dict[i]['familia']][ops_dict[j]['familia']]
@@ -450,12 +577,16 @@ def resolver_flowshop_gurobi(dados, matriz_setup, c_atraso, c_estoque,
             if i != j:
                 x[i, j] = model.addVar(vtype=GRB.BINARY, name=f"x_{i}_{j}")
 
-    C = {(j, m): model.addVar(vtype=GRB.CONTINUOUS, lb=0.0, ub=horizonte, name=f"C_{j}_{m}")
-         for j in ops for m in range(n_maq)}
-    T = {j: model.addVar(vtype=GRB.CONTINUOUS, lb=0.0, name=f"T_{j}") for j in ops}
+    C = {
+        (j, m): model.addVar(vtype=GRB.CONTINUOUS, lb=lb_c[j, m], ub=ub_c[j, m], name=f"C_{j}_{m}")
+        for j in ops for m in range(n_maq)
+    }
+    T = {j: model.addVar(vtype=GRB.CONTINUOUS, lb=0.0, ub=max_atraso_possivel, name=f"T_{j}") for j in ops}
     E = {j: model.addVar(vtype=GRB.CONTINUOUS, lb=0.0, name=f"E_{j}") for j in ops}
-    w = {(j, m): model.addVar(vtype=GRB.BINARY, name=f"w_{j}_{m}")
-         for j in ops for m in range(1, n_maq)}
+    w = {
+        (j, m): model.addVar(vtype=GRB.BINARY, name=f"w_{j}_{m}")
+        for j in ops for m in range(1, n_maq)
+    }
 
     model.setObjective(
         gp.quicksum(c_atraso * T[j] + c_estoque * E[j] for j in ops),
@@ -471,41 +602,44 @@ def resolver_flowshop_gurobi(dados, matriz_setup, c_atraso, c_estoque,
 
     # (2) fluxo
     for j in ops:
-        model.addConstr(C[j, 0] >= ops_dict[j]['p'][0])
         for m in range(1, n_maq):
             model.addConstr(C[j, m] >= C[j, m - 1] + ops_dict[j]['p'][m])
 
-    # (3) setup
+    # (3) setup com Big-M estreito por par (i, j, m)
     for i in ops:
         for j in ops:
             if i == j:
                 continue
             s_ij = setup(i, j)
             for m in range(n_maq):
+                p_jm = ops_dict[j]['p'][m]
+                m_ijm = max(0.0, ub_c[i, m] + s_ij + p_jm - lb_c[j, m])
                 model.addConstr(
-                    C[j, m] >= C[i, m] + s_ij + ops_dict[j]['p'][m]
-                    - big_m * (1 - x[i, j])
+                    C[j, m] >= C[i, m] + s_ij + p_jm - m_ijm * (1 - x[i, j])
                 )
 
-    # (3b) semiativa
+    # (3b) semiativa com Big-M estreito
     for j in ops:
         p_j0 = ops_dict[j]['p'][0]
-        model.addConstr(C[j, 0] <= p_j0 + big_m * (1 - x['START', j]))
+        m_start = max(0.0, ub_c[j, 0] - p_j0)
+        model.addConstr(C[j, 0] <= p_j0 + m_start * (1 - x['START', j]))
         for i in ops:
             if i != j:
+                m_0 = max(0.0, ub_c[j, 0] - lb_c[i, 0] - setup(i, j) - p_j0)
                 model.addConstr(
-                    C[j, 0] <= C[i, 0] + setup(i, j) + p_j0
-                    + big_m * (1 - x[i, j])
+                    C[j, 0] <= C[i, 0] + setup(i, j) + p_j0 + m_0 * (1 - x[i, j])
                 )
         for m in range(1, n_maq):
             p_jm = ops_dict[j]['p'][m]
             model.addConstr(w[j, m] >= x['START', j])
-            model.addConstr(C[j, m] <= C[j, m - 1] + p_jm + big_m * (1 - w[j, m]))
+            m_w1 = max(0.0, ub_c[j, m] - lb_c[j, m - 1] - p_jm)
+            model.addConstr(C[j, m] <= C[j, m - 1] + p_jm + m_w1 * (1 - w[j, m]))
             for i in ops:
                 if i != j:
+                    m_w2 = max(0.0, ub_c[j, m] - lb_c[i, m] - setup(i, j) - p_jm)
                     model.addConstr(
                         C[j, m] <= C[i, m] + setup(i, j) + p_jm
-                        + big_m * (1 - x[i, j] + w[j, m])
+                        + m_w2 * (1 - x[i, j] + w[j, m])
                     )
 
     # (4) atraso / antecipação
@@ -514,7 +648,7 @@ def resolver_flowshop_gurobi(dados, matriz_setup, c_atraso, c_estoque,
         model.addConstr(T[j] >= C[j, n_maq - 1] - d_j)
         model.addConstr(E[j] >= d_j - C[j, n_maq - 1])
 
-    # 3. Injeção do MIP Start Completo (x, C, w, T, E)
+    # 4. Injeção do MIP Start Completo (x, C, w, T, E)
     _, C_ws = _calcular_cronograma(seq_ws, dados, matriz_setup, n_maq)
     usados = {('START', seq_ws[0])} | {(seq_ws[k], seq_ws[k + 1]) for k in range(n - 1)}
     for key, var in x.items():
@@ -534,7 +668,7 @@ def resolver_flowshop_gurobi(dados, matriz_setup, c_atraso, c_estoque,
         T[j].Start = max(0.0, C_ws[k][n_maq - 1] - d_j)
         E[j].Start = max(0.0, d_j - C_ws[k][n_maq - 1])
 
-    # 4. Callback de Barra de Progresso em Tempo Real
+    # 5. Callback de Barra de Progresso em Tempo Real
     estado_prog = {
         'ultimo_print': 0.0,
         'gap_inicial': None,
@@ -546,10 +680,7 @@ def resolver_flowshop_gurobi(dados, matriz_setup, c_atraso, c_estoque,
     spinners = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
 
     def _renderizar_barra(ub, lb, nos, tempo_decorrido, finalizado=False):
-        if ub <= 1e-9:
-            gap_atual = 0.0
-        else:
-            gap_atual = max(0.0, (ub - lb) / ub)
+        gap_atual = 0.0 if ub <= 1e-9 else max(0.0, (ub - lb) / ub)
 
         if lb > 1e-6 and estado_prog['gap_inicial'] is None:
             estado_prog['gap_inicial'] = max(gap_atual, mip_gap_alvo + 1e-4)
@@ -610,7 +741,7 @@ def resolver_flowshop_gurobi(dados, matriz_setup, c_atraso, c_estoque,
                 estado_prog['melhor_lb'],
                 estado_prog['nos'],
                 runtime,
-                finalizado=False
+                finalizado=False,
             )
 
     if mostrar_progresso and not verbose:
@@ -620,7 +751,7 @@ def resolver_flowshop_gurobi(dados, matriz_setup, c_atraso, c_estoque,
     else:
         model.optimize()
 
-    # 5. Reconstrução da sequência ótima
+    # 6. Reconstrução da sequência ótima
     seq_opt = []
     if model.SolCount > 0:
         curr = 'START'
@@ -648,7 +779,7 @@ def resolver_flowshop_gurobi(dados, matriz_setup, c_atraso, c_estoque,
 
     if mostrar_progresso and not verbose:
         _renderizar_barra(custo_avaliado, bound_final, nos_finais, tempo_gurobi, finalizado=True)
-        print()  # Quebra de linha ao concluir
+        print()
 
     iteracoes_gurobi = int(model.IterCount) if hasattr(model, 'IterCount') else 0
     gap_final_pct = (model.MIPGap * 100.0) if model.SolCount > 0 else (
@@ -663,6 +794,8 @@ def resolver_flowshop_gurobi(dados, matriz_setup, c_atraso, c_estoque,
     log_gurobi.append(f"Custo Final       : R$ {custo_avaliado:.2f}")
 
     return seq_opt, custo_avaliado, iteracoes_gurobi, log_gurobi
+
+
 # -----------------------------------------------------------------------------
 # DIAGRAMA DE GANTT (matplotlib)
 # -----------------------------------------------------------------------------

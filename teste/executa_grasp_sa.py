@@ -39,14 +39,14 @@ CONFIGURACOES = [
         "tipo_const": "rcl",
         "alpha": 0.3,
         "algoritmo": "grasp",
-        "max_iter": 30,
+        "max_iter": 100,
         "viz": ['swap', 'insercao'],
     },
     {
         "tipo_const": "rcl",
         "alpha": 0.7,
         "algoritmo": "grasp",
-        "max_iter": 30,
+        "max_iter": 100,
         "viz": ['swap', 'insercao'],
     },
 
@@ -92,7 +92,7 @@ def executar_experimento(num_cenario, cfg, dados):
 
     # 2. META-HEURÍSTICA (GRASP ou SIMULATED ANNEALING)
     if algoritmo == "grasp":
-        max_iter = cfg.get("max_iter", 30)
+        max_iter = cfg.get("max_iter", 100)
         nome_algoritmo = f"GRASP (alpha={alpha}, iter={max_iter})"
         slug_algoritmo = f"grasp_a{alpha}_it{max_iter}"
         seq_final, custo_final, iteracoes, log_ref = grasp(

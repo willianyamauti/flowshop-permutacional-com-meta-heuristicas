@@ -81,14 +81,14 @@ def menu_seletor():
             print("Valor inválido. Definindo gap alvo = 5.0% por padrão.")
             mip_gap_alvo = 0.05
 
-    max_iter_grasp = 30
+    max_iter_grasp = 100
     if opcao_algoritmo == '5':
         try:
             val = input("Número de iterações do GRASP [Padrão: 30]: ").strip()
             if val:
                 max_iter_grasp = max(1, int(val))
         except ValueError:
-            max_iter_grasp = 30
+            max_iter_grasp = 100
 
     mapa_viz = {
         '1': ['swap'],
