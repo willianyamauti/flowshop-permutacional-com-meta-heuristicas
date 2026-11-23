@@ -12,6 +12,7 @@ from heuristicas import (
     grasp,
     simulated_annealing,
     resolver_flowshop_gurobi,
+    resolver_flowshop_bnb,
     gerar_grafico_gantt,
 )
 
@@ -25,6 +26,11 @@ MATRIZ_SETUP = {
     'F2': {'F1': 3.5, 'F2': 0.0, 'F3': 1.5},
     'F3': {'F1': 4.0, 'F2': 2.5, 'F3': 0.0},
 }
+
+
+def _formatar_lista_viz(estruturas):
+    mapa = {"insercao": "Inserção", "swap": "Swap", "bloco": "Bloco"}
+    return " + ".join(mapa.get(v, v.capitalize()) for v in estruturas)
 
 
 def menu_seletor():
@@ -56,11 +62,12 @@ def menu_seletor():
     print("\n[3] ESCOLHA O MÉTODO DE REFINAMENTO / ALGORITMO:")
     print("  1 - VND (Apenas Swap)")
     print("  2 - VND (Apenas Inserção)")
-    print("  3 - VND (Ambas: Swap + Inserção)")
+    print("  3 - VND (Completa: Inserção + Swap + Bloco)")
     print("  4 - Gurobi Optimizer (Exato MILP + Warm Start VND)")
-    print("  5 - GRASP (Multi-Start: RCL + VND)")
-    print("  6 - Simulated Annealing (Swap + Inserção)")
-    opcao_algoritmo = input("Digite a opção desejada (1-6): ").strip()
+    print("  5 - Branch-and-Bound Combinatório Exato (Sem Big-M)")
+    print("  6 - GRASP (Multi-Start: RCL + VND)")
+    print("  7 - Simulated Annealing (Auto-Calibrado: Inserção + Swap + Bloco)")
+    opcao_algoritmo = input("Digite a opção desejada (1-7): ").strip()
 
     time_limit_gurobi = 1800
     mip_gap_alvo = 0.05
@@ -81,10 +88,19 @@ def menu_seletor():
             print("Valor inválido. Definindo gap alvo = 5.0% por padrão.")
             mip_gap_alvo = 0.05
 
-    max_iter_grasp = 100
+    time_limit_bnb = 60
     if opcao_algoritmo == '5':
         try:
-            val = input("Número de iterações do GRASP [Padrão: 30]: ").strip()
+            val_bnb = input("Tempo limite do Branch-and-Bound em segundos [Padrão: 60]: ").strip()
+            if val_bnb:
+                time_limit_bnb = max(1, int(val_bnb))
+        except ValueError:
+            time_limit_bnb = 60
+
+    max_iter_grasp = 100
+    if opcao_algoritmo == '6':
+        try:
+            val = input("Número de iterações do GRASP [Padrão: 100]: ").strip()
             if val:
                 max_iter_grasp = max(1, int(val))
         except ValueError:
@@ -93,11 +109,11 @@ def menu_seletor():
     mapa_viz = {
         '1': ['swap'],
         '2': ['insercao'],
-        '3': ['swap', 'insercao'],
-        '5': ['swap', 'insercao'],
-        '6': ['swap', 'insercao'],
+        '3': ['insercao', 'swap', 'bloco'],
+        '6': ['insercao', 'swap', 'bloco'],
+        '7': ['insercao', 'swap', 'bloco'],
     }
-    estruturas_selecionadas = mapa_viz.get(opcao_algoritmo, ['swap', 'insercao'])
+    estruturas_selecionadas = mapa_viz.get(opcao_algoritmo, ['insercao', 'swap', 'bloco'])
 
     return (
         num_cenario,
@@ -109,6 +125,7 @@ def menu_seletor():
         max_iter_grasp,
         time_limit_gurobi,
         mip_gap_alvo,
+        time_limit_bnb,
     )
 
 
@@ -123,6 +140,7 @@ if __name__ == "__main__":
         max_iter_grasp,
         time_limit_gurobi,
         mip_gap_alvo,
+        time_limit_bnb,
     ) = menu_seletor()
 
     dados = carrega_cenario(nome_arquivo)
@@ -134,7 +152,7 @@ if __name__ == "__main__":
     # -------------------------------------------------------------------------
     if opcao_construtiva == '1':
         nome_construtiva = "Estratégia A (EDD + Setup)"
-        seq_inicial, log_const = construtiva_edd_setup(dados, MATRIZ_SETUP, peso_setup=50.0)
+        seq_inicial, log_const = construtiva_edd_setup(dados, MATRIZ_SETUP, peso_setup=5.0)
     else:
         nome_construtiva = f"Estratégia B (Parcialmente Gulosa RCL alpha={alpha})"
         seq_inicial, log_const = construtiva_parcialmente_gulosa(
@@ -167,8 +185,22 @@ if __name__ == "__main__":
             usar_vnd_warmstart=True,
         )
     elif opcao_algoritmo == '5':
+        nome_algoritmo = f"Branch-and-Bound Combinatório (TimeLimit={time_limit_bnb}s)"
+        str_viz = _formatar_lista_viz(estruturas_viz)
+        seq_final, custo_final, iteracoes, log_ref = resolver_flowshop_bnb(
+            dados,
+            MATRIZ_SETUP,
+            C_ATRASO,
+            C_ESTOQUE,
+            n_maq=N_MAQ,
+            time_limit=time_limit_bnb,
+            mostrar_progresso=True,
+            seq_inicial=seq_inicial,
+            usar_vnd_warmstart=True,
+        )
+    elif opcao_algoritmo == '6':
         nome_algoritmo = f"GRASP (alpha={alpha}, iter={max_iter_grasp})"
-        str_viz = "RCL + VND (Swap + Inserção)"
+        str_viz = _formatar_lista_viz(estruturas_viz)
         seq_final, custo_final, iteracoes, log_ref = grasp(
             dados,
             MATRIZ_SETUP,
@@ -180,9 +212,9 @@ if __name__ == "__main__":
             estruturas=estruturas_viz,
             seq_inicial=seq_inicial,
         )
-    elif opcao_algoritmo == '6':
+    elif opcao_algoritmo == '7':
         nome_algoritmo = "Simulated Annealing"
-        str_viz = "Swap + Inserção"
+        str_viz = _formatar_lista_viz(estruturas_viz)
         seq_final, custo_final, iteracoes, log_ref = simulated_annealing(
             seq_inicial,
             dados,
@@ -190,15 +222,14 @@ if __name__ == "__main__":
             C_ATRASO,
             C_ESTOQUE,
             n_maq=N_MAQ,
-            temp_inicial=2000.0,
-            temp_final=1.0,
+            temp_inicial=None,
             taxa_resfriamento=0.95,
             iter_por_temp=50,
             estruturas=estruturas_viz,
         )
     else:
         nome_algoritmo = "VND (Variable Neighborhood Descent)"
-        str_viz = " + ".join([v.capitalize() for v in estruturas_viz])
+        str_viz = _formatar_lista_viz(estruturas_viz)
         seq_final, custo_final, iteracoes, log_ref = vnd(
             seq_inicial,
             dados,
@@ -253,8 +284,10 @@ if __name__ == "__main__":
     if opcao_algoritmo == '4':
         slug_algoritmo = f"gurobi_ws_gap{int(round(mip_gap_alvo * 100))}"
     elif opcao_algoritmo == '5':
-        slug_algoritmo = f"grasp_a{alpha}_it{max_iter_grasp}"
+        slug_algoritmo = "bnb_exato"
     elif opcao_algoritmo == '6':
+        slug_algoritmo = f"grasp_a{alpha}_it{max_iter_grasp}"
+    elif opcao_algoritmo == '7':
         slug_algoritmo = "simulated_annealing"
     else:
         slug_algoritmo = "_".join(estruturas_viz)

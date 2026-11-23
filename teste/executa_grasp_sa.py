@@ -1,7 +1,8 @@
 # =============================================================================
-# executa_tudo.py
-# Automação de experimentos: Roda os 5 cenários comparando GRASP e
-# Simulated Annealing (usando Swap + Inserção), gera logs, Gantts e tabelas PNG.
+# executa_grasp_sa.py
+# Automação de experimentos: Roda os 5 cenários comparando Branch-and-Bound
+# Combinatório Exato, GRASP e Simulated Annealing (Inserção + Swap + Bloco),
+# gerando logs, gráficos de Gantt e tabelas PNG com BKS e RPD (%).
 # =============================================================================
 import os
 import glob
@@ -13,6 +14,7 @@ from heuristicas import (
     construtiva_parcialmente_gulosa,
     grasp,
     simulated_annealing,
+    resolver_flowshop_bnb,
     gerar_grafico_gantt,
 )
 from gera_tabela_cenario import processar_cenario
@@ -23,7 +25,7 @@ C_ESTOQUE = 180.0
 N_MAQ = 4
 
 # Se True, apaga logs/Gantts antigos da pasta do cenário antes de rodar,
-# garantindo que a tabela PNG contenha apenas GRASP e Simulated Annealing.
+# mantendo a tabela PNG limpa com os experimentos desta bateria.
 LIMPAR_RESULTADOS_ANTERIORES = True
 
 MATRIZ_SETUP = {
@@ -32,47 +34,63 @@ MATRIZ_SETUP = {
     'F3': {'F1': 4.0, 'F2': 2.5, 'F3': 0.0},
 }
 
-# CONFIGURAÇÕES A SEREM TESTADAS POR CENÁRIO (GRASP e Simulated Annealing)
+VIZ_PADRAO = ['insercao', 'swap', 'bloco']
+
+# CONFIGURAÇÕES A SEREM TESTADAS POR CENÁRIO
 CONFIGURACOES = [
-    # GRASP (RCL + VND com Swap e Inserção)
+    # 1. Referência Exata Combinatória (sem Big-M: prova Gap=0% nos Cenários 1 e 2)
+    {
+        "tipo_const": "edd",
+        "alpha": 0.0,
+        "algoritmo": "bnb",
+        "time_limit": 15,
+        "viz": VIZ_PADRAO,
+    },
+
+    # 2. GRASP (RCL + VND com Inserção, Swap e Bloco)
     {
         "tipo_const": "rcl",
         "alpha": 0.3,
         "algoritmo": "grasp",
         "max_iter": 100,
-        "viz": ['swap', 'insercao'],
+        "viz": VIZ_PADRAO,
     },
     {
         "tipo_const": "rcl",
         "alpha": 0.7,
         "algoritmo": "grasp",
         "max_iter": 100,
-        "viz": ['swap', 'insercao'],
+        "viz": VIZ_PADRAO,
     },
 
-    # Simulated Annealing (Partindo de EDD e de RCL, com Swap e Inserção)
+    # 3. Simulated Annealing Auto-Calibrado (Partindo de EDD e de RCL)
     {
         "tipo_const": "edd",
         "alpha": 0.0,
         "algoritmo": "sa",
-        "viz": ['swap', 'insercao'],
+        "viz": VIZ_PADRAO,
     },
     {
         "tipo_const": "rcl",
         "alpha": 0.3,
         "algoritmo": "sa",
-        "viz": ['swap', 'insercao'],
+        "viz": VIZ_PADRAO,
     },
 ]
 
 
+def _formatar_lista_viz(estruturas):
+    mapa = {"insercao": "Inserção", "swap": "Swap", "bloco": "Bloco"}
+    return " + ".join(mapa.get(v, v.capitalize()) for v in estruturas)
+
+
 def executar_experimento(num_cenario, cfg, dados):
-    """Executa uma combinação (Cenário x Meta-heurística) e salva os arquivos."""
+    """Executa uma combinação (Cenário x Algoritmo) e salva os arquivos."""
     tipo_const = cfg["tipo_const"]
     alpha = cfg["alpha"]
     algoritmo = cfg["algoritmo"]
     estruturas_viz = cfg["viz"]
-    str_viz = " + ".join([v.replace("insercao", "Inserção").capitalize() for v in estruturas_viz])
+    str_viz = _formatar_lista_viz(estruturas_viz)
 
     inicio_tempo = time.perf_counter()
 
@@ -80,7 +98,7 @@ def executar_experimento(num_cenario, cfg, dados):
     if tipo_const == "edd":
         nome_construtiva = "Estratégia A (EDD + Setup)"
         slug_construtiva = "edd"
-        seq_inicial, log_const = construtiva_edd_setup(dados, MATRIZ_SETUP, peso_setup=50.0)
+        seq_inicial, log_const = construtiva_edd_setup(dados, MATRIZ_SETUP, peso_setup=5.0)
     else:
         nome_construtiva = f"Estratégia B (Parcialmente Gulosa RCL alpha={alpha})"
         slug_construtiva = f"rcl_a{alpha}"
@@ -90,8 +108,23 @@ def executar_experimento(num_cenario, cfg, dados):
 
     custo_inicial = avaliar_sequencia(seq_inicial, dados, MATRIZ_SETUP, C_ATRASO, C_ESTOQUE, N_MAQ)
 
-    # 2. META-HEURÍSTICA (GRASP ou SIMULATED ANNEALING)
-    if algoritmo == "grasp":
+    # 2. REFINAMENTO / OTIMIZAÇÃO EXATA
+    if algoritmo == "bnb":
+        tl = cfg.get("time_limit", 15)
+        nome_algoritmo = f"Branch-and-Bound Combinatório (TimeLimit={tl}s)"
+        slug_algoritmo = "bnb_exato"
+        seq_final, custo_final, iteracoes, log_ref = resolver_flowshop_bnb(
+            dados,
+            MATRIZ_SETUP,
+            C_ATRASO,
+            C_ESTOQUE,
+            n_maq=N_MAQ,
+            time_limit=tl,
+            mostrar_progresso=False,
+            seq_inicial=seq_inicial,
+            usar_vnd_warmstart=True,
+        )
+    elif algoritmo == "grasp":
         max_iter = cfg.get("max_iter", 100)
         nome_algoritmo = f"GRASP (alpha={alpha}, iter={max_iter})"
         slug_algoritmo = f"grasp_a{alpha}_it{max_iter}"
@@ -116,8 +149,7 @@ def executar_experimento(num_cenario, cfg, dados):
             C_ATRASO,
             C_ESTOQUE,
             n_maq=N_MAQ,
-            temp_inicial=2000.0,
-            temp_final=1.0,
+            temp_inicial=None,
             taxa_resfriamento=0.95,
             iter_por_temp=50,
             estruturas=estruturas_viz,
@@ -177,7 +209,7 @@ def executar_experimento(num_cenario, cfg, dados):
 def rodar_bateria_completa():
     total_cfg = len(CONFIGURACOES)
     print("=" * 70)
-    print(f"   BATERIA DE EXPERIMENTOS: GRASP & SIMULATED ANNEALING (5x{total_cfg})")
+    print(f"   BATERIA DE EXPERIMENTOS: B&B EXATO, GRASP & SA (5x{total_cfg})")
     print("=" * 70)
 
     for num_cenario in range(1, 6):

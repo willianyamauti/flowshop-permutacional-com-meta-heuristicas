@@ -1,0 +1,44 @@
+=== CONSTRUÇÃO: ESTRATÉGIA A (EDD + SETUP | peso=5.0) ===
+Passo 1: Selecionada 1ª OP pelo menor Due Date: OP01 (Família F1, d_j = 15.0h)
+Passo 2: Adicionada OP OP04 (Família F1, Score = 20.00)
+Passo 3: Adicionada OP OP07 (Família F1, Score = 28.00)
+Passo 4: Adicionada OP OP03 (Família F2, Score = 32.00)
+Passo 5: Adicionada OP OP05 (Família F2, Score = 25.00)
+Passo 6: Adicionada OP OP02 (Família F3, Score = 25.50)
+Passo 7: Adicionada OP OP06 (Família F3, Score = 30.00)
+Passo 8: Adicionada OP OP08 (Família F3, Score = 35.00)
+Passo 9: Adicionada OP OP11 (Família F3, Score = 42.00)
+Passo 10: Adicionada OP OP09 (Família F2, Score = 44.50)
+Passo 11: Adicionada OP OP12 (Família F2, Score = 38.00)
+Passo 12: Adicionada OP OP10 (Família F1, Score = 57.50)
+
+=== META-HEURÍSTICA: SIMULATED ANNEALING (T0=22316.6, Tf=22.32, alpha=0.95, L=50) ===
+Custo Inicial: R$ 24570.00
+
+  [Ciclo 015 | T=10883.26] Custo atual: R$ 82140.00 | Melhor global: R$ 24570.00
+  [Ciclo 030 | T=5042.12] Custo atual: R$ 47220.00 | Melhor global: R$ 24570.00
+  [Ciclo 041 | T=2867.96] NOVO MELHOR (Swap (3 <-> 6)): R$ 21750.00 (-R$ 2820.00)
+  [Ciclo 041 | T=2867.96] NOVO MELHOR (Inserção (1 -> 2)): R$ 20790.00 (-R$ 960.00)
+  [Ciclo 045 | T=2335.97] Custo atual: R$ 29550.00 | Melhor global: R$ 20790.00
+  [Ciclo 060 | T=1082.23] Custo atual: R$ 23130.00 | Melhor global: R$ 20790.00
+  [Ciclo 075 | T= 501.39] Custo atual: R$ 21660.00 | Melhor global: R$ 20790.00
+  [Ciclo 090 | T= 232.29] Custo atual: R$ 21390.00 | Melhor global: R$ 20790.00
+  [Ciclo 105 | T= 107.62] Custo atual: R$ 21780.00 | Melhor global: R$ 20790.00
+  [Ciclo 120 | T=  49.86] Custo atual: R$ 21210.00 | Melhor global: R$ 20790.00
+  [Ciclo 135 | T=  23.10] Custo atual: R$ 21210.00 | Melhor global: R$ 20790.00
+
+Fim do Simulated Annealing: Melhor custo = R$ 20790.00 (Movimentos de piora aceitos: 795)
+
+=================================================================
+RESUMO FINAL DA EXECUÇÃO:
+Cenário: cenario_2.csv
+Construtiva: Estratégia A (EDD + Setup)
+Refinamento: Simulated Annealing (Inserção + Swap + Bloco)
+Custo Inicial: R$ 24570.00
+Custo Final: R$ 20790.00
+Redução %: 15.38%
+Tempo Execução: 0.1184 s
+Iterações: 6750
+Sequência: OP01 -> OP04 -> OP07 -> OP02 -> OP03 -> OP05 -> OP12 -> OP09 -> OP06 -> OP08 -> OP11 -> OP10
+Gráfico Gantt: resultados/cenario_2/gantt_cenario2_edd_simulated_annealing.png
+=================================================================

@@ -1,0 +1,79 @@
+=== CONSTRUÇÃO: ESTRATÉGIA A (EDD + SETUP | peso=5.0) ===
+Passo 1: Selecionada 1ª OP pelo menor Due Date: OP07 (Família F1, d_j = 20.0h)
+Passo 2: Adicionada OP OP01 (Família F1, Score = 25.00)
+Passo 3: Adicionada OP OP04 (Família F1, Score = 35.00)
+Passo 4: Adicionada OP OP03 (Família F2, Score = 50.00)
+Passo 5: Adicionada OP OP06 (Família F2, Score = 50.00)
+Passo 6: Adicionada OP OP09 (Família F2, Score = 65.00)
+Passo 7: Adicionada OP OP12 (Família F2, Score = 70.00)
+Passo 8: Adicionada OP OP13 (Família F1, Score = 77.50)
+Passo 9: Adicionada OP OP16 (Família F1, Score = 75.00)
+Passo 10: Adicionada OP OP10 (Família F1, Score = 80.00)
+Passo 11: Adicionada OP OP15 (Família F2, Score = 95.00)
+Passo 12: Adicionada OP OP18 (Família F2, Score = 95.00)
+Passo 13: Adicionada OP OP02 (Família F3, Score = 97.50)
+Passo 14: Adicionada OP OP11 (Família F3, Score = 100.00)
+Passo 15: Adicionada OP OP05 (Família F3, Score = 110.00)
+Passo 16: Adicionada OP OP08 (Família F3, Score = 120.00)
+Passo 17: Adicionada OP OP19 (Família F1, Score = 125.00)
+Passo 18: Adicionada OP OP14 (Família F3, Score = 145.00)
+Passo 19: Adicionada OP OP17 (Família F3, Score = 140.00)
+Passo 20: Adicionada OP OP20 (Família F3, Score = 150.00)
+
+=== META-HEURÍSTICA: SIMULATED ANNEALING (T0=26092.4, Tf=26.09, alpha=0.95, L=50) ===
+Custo Inicial: R$ 111960.00
+
+  [Ciclo 001 | T=26092.42] NOVO MELHOR (Bloco (10 -> 11)): R$ 107190.00 (-R$ 4770.00)
+  [Ciclo 001 | T=26092.42] NOVO MELHOR (Inserção (15 -> 2)): R$ 96750.00 (-R$ 10440.00)
+  [Ciclo 015 | T=12724.62] Custo atual: R$ 147960.00 | Melhor global: R$ 96750.00
+  [Ciclo 018 | T=10909.77] NOVO MELHOR (Bloco (11 -> 12)): R$ 93480.00 (-R$ 3270.00)
+  [Ciclo 018 | T=10909.77] NOVO MELHOR (Inserção (8 -> 0)): R$ 89970.00 (-R$ 3510.00)
+  [Ciclo 019 | T=10364.28] NOVO MELHOR (Swap (15 <-> 17)): R$ 87960.00 (-R$ 2010.00)
+  [Ciclo 026 | T=7237.77] NOVO MELHOR (Swap (13 <-> 1)): R$ 87090.00 (-R$ 870.00)
+  [Ciclo 026 | T=7237.77] NOVO MELHOR (Swap (7 <-> 5)): R$ 80310.00 (-R$ 6780.00)
+  [Ciclo 027 | T=6875.88] NOVO MELHOR (Bloco (17 -> 16)): R$ 79260.00 (-R$ 1050.00)
+  [Ciclo 030 | T=5895.21] Custo atual: R$ 100290.00 | Melhor global: R$ 79260.00
+  [Ciclo 033 | T=5054.40] NOVO MELHOR (Bloco (15 -> 6)): R$ 77790.00 (-R$ 1470.00)
+  [Ciclo 033 | T=5054.40] NOVO MELHOR (Swap (13 <-> 12)): R$ 77160.00 (-R$ 630.00)
+  [Ciclo 033 | T=5054.40] NOVO MELHOR (Swap (0 <-> 4)): R$ 76980.00 (-R$ 180.00)
+  [Ciclo 033 | T=5054.40] NOVO MELHOR (Swap (17 <-> 14)): R$ 76500.00 (-R$ 480.00)
+  [Ciclo 040 | T=3529.68] NOVO MELHOR (Swap (11 <-> 14)): R$ 75420.00 (-R$ 1080.00)
+  [Ciclo 045 | T=2731.20] NOVO MELHOR (Inserção (0 -> 16)): R$ 69300.00 (-R$ 6120.00)
+  [Ciclo 046 | T=2594.64] NOVO MELHOR (Swap (1 <-> 9)): R$ 67320.00 (-R$ 1980.00)
+  [Ciclo 046 | T=2594.64] NOVO MELHOR (Inserção (9 -> 10)): R$ 66990.00 (-R$ 330.00)
+  [Ciclo 046 | T=2594.64] NOVO MELHOR (Inserção (16 -> 12)): R$ 64830.00 (-R$ 2160.00)
+  [Ciclo 046 | T=2594.64] NOVO MELHOR (Bloco (6 -> 7)): R$ 62430.00 (-R$ 2400.00)
+  [Ciclo 056 | T=1553.51] NOVO MELHOR (Inserção (12 -> 16)): R$ 62070.00 (-R$ 360.00)
+  [Ciclo 056 | T=1553.51] NOVO MELHOR (Swap (11 <-> 17)): R$ 60990.00 (-R$ 1080.00)
+  [Ciclo 060 | T=1265.34] NOVO MELHOR (Inserção (3 -> 10)): R$ 58350.00 (-R$ 2640.00)
+  [Ciclo 061 | T=1202.07] NOVO MELHOR (Inserção (10 -> 18)): R$ 55050.00 (-R$ 3300.00)
+  [Ciclo 064 | T=1030.63] NOVO MELHOR (Bloco (9 -> 11)): R$ 47760.00 (-R$ 7290.00)
+  [Ciclo 066 | T= 930.14] NOVO MELHOR (Swap (3 <-> 1)): R$ 47400.00 (-R$ 360.00)
+  [Ciclo 068 | T= 839.45] NOVO MELHOR (Swap (13 <-> 14)): R$ 47220.00 (-R$ 180.00)
+  [Ciclo 070 | T= 757.61] NOVO MELHOR (Swap (13 <-> 14)): R$ 46530.00 (-R$ 690.00)
+  [Ciclo 070 | T= 757.61] NOVO MELHOR (Swap (17 <-> 19)): R$ 46260.00 (-R$ 270.00)
+  [Ciclo 074 | T= 617.07] NOVO MELHOR (Inserção (15 -> 12)): R$ 45960.00 (-R$ 300.00)
+  [Ciclo 075 | T= 586.22] Custo atual: R$ 47340.00 | Melhor global: R$ 45960.00
+  [Ciclo 090 | T= 271.59] Custo atual: R$ 47580.00 | Melhor global: R$ 45960.00
+  [Ciclo 097 | T= 189.66] NOVO MELHOR (Swap (2 <-> 0)): R$ 45570.00 (-R$ 390.00)
+  [Ciclo 097 | T= 189.66] NOVO MELHOR (Swap (17 <-> 18)): R$ 45120.00 (-R$ 450.00)
+  [Ciclo 101 | T= 154.48] NOVO MELHOR (Swap (1 <-> 5)): R$ 44460.00 (-R$ 660.00)
+  [Ciclo 105 | T= 125.83] Custo atual: R$ 44460.00 | Melhor global: R$ 44460.00
+  [Ciclo 120 | T=  58.29] Custo atual: R$ 44460.00 | Melhor global: R$ 44460.00
+  [Ciclo 135 | T=  27.01] Custo atual: R$ 44460.00 | Melhor global: R$ 44460.00
+
+Fim do Simulated Annealing: Melhor custo = R$ 44460.00 (Movimentos de piora aceitos: 699)
+
+=================================================================
+RESUMO FINAL DA EXECUÇÃO:
+Cenário: cenario_5.csv
+Construtiva: Estratégia A (EDD + Setup)
+Refinamento: Simulated Annealing (Inserção + Swap + Bloco)
+Custo Inicial: R$ 111960.00
+Custo Final: R$ 44460.00
+Redução %: 60.29%
+Tempo Execução: 0.1623 s
+Iterações: 6750
+Sequência: OP01 -> OP09 -> OP07 -> OP03 -> OP04 -> OP06 -> OP16 -> OP12 -> OP13 -> OP15 -> OP10 -> OP02 -> OP18 -> OP11 -> OP19 -> OP05 -> OP08 -> OP14 -> OP17 -> OP20
+Gráfico Gantt: resultados/cenario_5/gantt_cenario5_edd_simulated_annealing.png
+=================================================================

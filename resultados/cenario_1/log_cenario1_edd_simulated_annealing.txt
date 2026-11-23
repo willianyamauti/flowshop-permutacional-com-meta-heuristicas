@@ -1,0 +1,42 @@
+=== CONSTRUÇÃO: ESTRATÉGIA A (EDD + SETUP | peso=5.0) ===
+Passo 1: Selecionada 1ª OP pelo menor Due Date: OP02 (Família F2, d_j = 18.0h)
+Passo 2: Adicionada OP OP05 (Família F2, Score = 25.00)
+Passo 3: Adicionada OP OP08 (Família F2, Score = 28.00)
+Passo 4: Adicionada OP OP01 (Família F1, Score = 39.50)
+Passo 5: Adicionada OP OP03 (Família F1, Score = 30.00)
+Passo 6: Adicionada OP OP07 (Família F1, Score = 35.00)
+Passo 7: Adicionada OP OP04 (Família F3, Score = 55.00)
+Passo 8: Adicionada OP OP06 (Família F3, Score = 45.00)
+
+=== META-HEURÍSTICA: SIMULATED ANNEALING (T0=6097.4, Tf=6.10, alpha=0.95, L=50) ===
+Custo Inicial: R$ 15300.00
+
+  [Ciclo 001 | T=6097.40] NOVO MELHOR (Bloco (1 -> 2)): R$ 9630.00 (-R$ 5670.00)
+  [Ciclo 010 | T=3842.88] NOVO MELHOR (Inserção (2 -> 4)): R$ 9540.00 (-R$ 90.00)
+  [Ciclo 011 | T=3650.74] NOVO MELHOR (Swap (7 <-> 6)): R$ 9180.00 (-R$ 360.00)
+  [Ciclo 015 | T=2973.55] Custo atual: R$ 13350.00 | Melhor global: R$ 9180.00
+  [Ciclo 016 | T=2824.87] NOVO MELHOR (Swap (0 <-> 2)): R$ 7920.00 (-R$ 1260.00)
+  [Ciclo 030 | T=1377.62] Custo atual: R$ 9780.00 | Melhor global: R$ 7920.00
+  [Ciclo 045 | T= 638.24] Custo atual: R$ 8370.00 | Melhor global: R$ 7920.00
+  [Ciclo 060 | T= 295.69] Custo atual: R$ 8370.00 | Melhor global: R$ 7920.00
+  [Ciclo 075 | T= 136.99] Custo atual: R$ 7920.00 | Melhor global: R$ 7920.00
+  [Ciclo 090 | T=  63.47] Custo atual: R$ 7920.00 | Melhor global: R$ 7920.00
+  [Ciclo 105 | T=  29.40] Custo atual: R$ 7920.00 | Melhor global: R$ 7920.00
+  [Ciclo 120 | T=  13.62] Custo atual: R$ 7920.00 | Melhor global: R$ 7920.00
+  [Ciclo 135 | T=   6.31] Custo atual: R$ 7920.00 | Melhor global: R$ 7920.00
+
+Fim do Simulated Annealing: Melhor custo = R$ 7920.00 (Movimentos de piora aceitos: 774)
+
+=================================================================
+RESUMO FINAL DA EXECUÇÃO:
+Cenário: cenario_1.csv
+Construtiva: Estratégia A (EDD + Setup)
+Refinamento: Simulated Annealing (Inserção + Swap + Bloco)
+Custo Inicial: R$ 15300.00
+Custo Final: R$ 7920.00
+Redução %: 48.24%
+Tempo Execução: 0.1110 s
+Iterações: 6750
+Sequência: OP04 -> OP02 -> OP01 -> OP05 -> OP08 -> OP03 -> OP07 -> OP06
+Gráfico Gantt: resultados/cenario_1/gantt_cenario1_edd_simulated_annealing.png
+=================================================================

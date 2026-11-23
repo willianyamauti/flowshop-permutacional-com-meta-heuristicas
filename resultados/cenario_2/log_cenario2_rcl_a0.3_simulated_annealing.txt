@@ -1,0 +1,63 @@
+=== CONSTRUÇÃO: ESTRATÉGIA B (PARCIALMENTE GULOSA - RCL alpha=0.3) ===
+Passo 1: C_min=R$1260.00, C_max=R$5940.00, Limite RCL=R$2664.00 | Tamanho RCL=4 | Escolhida: OP03
+Passo 2: C_min=R$2640.00, C_max=R$7290.00, Limite RCL=R$4035.00 | Tamanho RCL=3 | Escolhida: OP04
+Passo 3: C_min=R$4140.00, C_max=R$7020.00, Limite RCL=R$5004.00 | Tamanho RCL=3 | Escolhida: OP06
+Passo 4: C_min=R$5070.00, C_max=R$12270.00, Limite RCL=R$7230.00 | Tamanho RCL=6 | Escolhida: OP10
+Passo 5: C_min=R$7320.00, C_max=R$16620.00, Limite RCL=R$10110.00 | Tamanho RCL=5 | Escolhida: OP07
+Passo 6: C_min=R$8040.00, C_max=R$18120.00, Limite RCL=R$11064.00 | Tamanho RCL=4 | Escolhida: OP11
+Passo 7: C_min=R$10800.00, C_max=R$25200.00, Limite RCL=R$15120.00 | Tamanho RCL=3 | Escolhida: OP08
+Passo 8: C_min=R$17700.00, C_max=R$32400.00, Limite RCL=R$22110.00 | Tamanho RCL=2 | Escolhida: OP09
+Passo 9: C_min=R$27600.00, C_max=R$42900.00, Limite RCL=R$32190.00 | Tamanho RCL=1 | Escolhida: OP12
+Passo 10: C_min=R$42900.00, C_max=R$51000.00, Limite RCL=R$45330.00 | Tamanho RCL=1 | Escolhida: OP05
+Passo 11: C_min=R$65400.00, C_max=R$67200.00, Limite RCL=R$65940.00 | Tamanho RCL=1 | Escolhida: OP02
+Passo 12: C_min=R$93000.00, C_max=R$93000.00, Limite RCL=R$93000.00 | Tamanho RCL=1 | Escolhida: OP01
+
+=== META-HEURÍSTICA: SIMULATED ANNEALING (T0=8674.5, Tf=8.67, alpha=0.95, L=50) ===
+Custo Inicial: R$ 93000.00
+
+  [Ciclo 001 | T=8674.51] NOVO MELHOR (Bloco (2 -> 9)): R$ 69690.00 (-R$ 23310.00)
+  [Ciclo 001 | T=8674.51] NOVO MELHOR (Inserção (8 -> 0)): R$ 60510.00 (-R$ 9180.00)
+  [Ciclo 001 | T=8674.51] NOVO MELHOR (Bloco (4 -> 8)): R$ 48660.00 (-R$ 11850.00)
+  [Ciclo 001 | T=8674.51] NOVO MELHOR (Swap (6 <-> 7)): R$ 45030.00 (-R$ 3630.00)
+  [Ciclo 001 | T=8674.51] NOVO MELHOR (Swap (6 <-> 1)): R$ 43590.00 (-R$ 1440.00)
+  [Ciclo 003 | T=7828.75] NOVO MELHOR (Bloco (9 -> 3)): R$ 39150.00 (-R$ 4440.00)
+  [Ciclo 004 | T=7437.31] NOVO MELHOR (Swap (8 <-> 0)): R$ 38730.00 (-R$ 420.00)
+  [Ciclo 004 | T=7437.31] NOVO MELHOR (Swap (6 <-> 9)): R$ 36330.00 (-R$ 2400.00)
+  [Ciclo 004 | T=7437.31] NOVO MELHOR (Inserção (11 -> 9)): R$ 32430.00 (-R$ 3900.00)
+  [Ciclo 007 | T=6376.57] NOVO MELHOR (Inserção (5 -> 10)): R$ 31650.00 (-R$ 780.00)
+  [Ciclo 013 | T=4687.36] NOVO MELHOR (Inserção (6 -> 11)): R$ 30750.00 (-R$ 900.00)
+  [Ciclo 015 | T=4230.34] NOVO MELHOR (Bloco (8 -> 9)): R$ 29850.00 (-R$ 900.00)
+  [Ciclo 030 | T=1959.88] Custo atual: R$ 35850.00 | Melhor global: R$ 29850.00
+  [Ciclo 031 | T=1861.89] NOVO MELHOR (Bloco (7 -> 9)): R$ 27510.00 (-R$ 2340.00)
+  [Ciclo 031 | T=1861.89] NOVO MELHOR (Inserção (5 -> 4)): R$ 26880.00 (-R$ 630.00)
+  [Ciclo 031 | T=1861.89] NOVO MELHOR (Bloco (7 -> 8)): R$ 26010.00 (-R$ 870.00)
+  [Ciclo 031 | T=1861.89] NOVO MELHOR (Inserção (7 -> 8)): R$ 24840.00 (-R$ 1170.00)
+  [Ciclo 032 | T=1768.79] NOVO MELHOR (Inserção (9 -> 5)): R$ 23550.00 (-R$ 1290.00)
+  [Ciclo 040 | T=1173.45] NOVO MELHOR (Swap (6 <-> 5)): R$ 23190.00 (-R$ 360.00)
+  [Ciclo 040 | T=1173.45] NOVO MELHOR (Inserção (8 -> 9)): R$ 21690.00 (-R$ 1500.00)
+  [Ciclo 042 | T=1059.04] NOVO MELHOR (Inserção (9 -> 8)): R$ 21120.00 (-R$ 570.00)
+  [Ciclo 042 | T=1059.04] NOVO MELHOR (Inserção (3 -> 2)): R$ 20970.00 (-R$ 150.00)
+  [Ciclo 045 | T= 908.00] Custo atual: R$ 21330.00 | Melhor global: R$ 20970.00
+  [Ciclo 046 | T= 862.60] NOVO MELHOR (Swap (0 <-> 1)): R$ 20790.00 (-R$ 180.00)
+  [Ciclo 060 | T= 420.67] Custo atual: R$ 23220.00 | Melhor global: R$ 20790.00
+  [Ciclo 075 | T= 194.89] Custo atual: R$ 20970.00 | Melhor global: R$ 20790.00
+  [Ciclo 090 | T=  90.29] Custo atual: R$ 20970.00 | Melhor global: R$ 20790.00
+  [Ciclo 105 | T=  41.83] Custo atual: R$ 20970.00 | Melhor global: R$ 20790.00
+  [Ciclo 120 | T=  19.38] Custo atual: R$ 20970.00 | Melhor global: R$ 20790.00
+  [Ciclo 135 | T=   8.98] Custo atual: R$ 20970.00 | Melhor global: R$ 20790.00
+
+Fim do Simulated Annealing: Melhor custo = R$ 20790.00 (Movimentos de piora aceitos: 476)
+
+=================================================================
+RESUMO FINAL DA EXECUÇÃO:
+Cenário: cenario_2.csv
+Construtiva: Estratégia B (Parcialmente Gulosa RCL alpha=0.3)
+Refinamento: Simulated Annealing (Inserção + Swap + Bloco)
+Custo Inicial: R$ 93000.00
+Custo Final: R$ 20790.00
+Redução %: 77.65%
+Tempo Execução: 0.1165 s
+Iterações: 6750
+Sequência: OP01 -> OP04 -> OP07 -> OP02 -> OP03 -> OP05 -> OP12 -> OP09 -> OP06 -> OP08 -> OP11 -> OP10
+Gráfico Gantt: resultados/cenario_2/gantt_cenario2_rcl_a0.3_simulated_annealing.png
+=================================================================

@@ -1,0 +1,43 @@
+=== CONSTRUÇÃO: ESTRATÉGIA B (PARCIALMENTE GULOSA - RCL alpha=0.7) ===
+Passo 1: C_min=R$1260.00, C_max=R$5940.00, Limite RCL=R$4536.00 | Tamanho RCL=9 | Escolhida: OP09
+Passo 2: C_min=R$4320.00, C_max=R$9360.00, Limite RCL=R$7848.00 | Tamanho RCL=8 | Escolhida: OP04
+Passo 3: C_min=R$5310.00, C_max=R$8910.00, Limite RCL=R$7830.00 | Tamanho RCL=7 | Escolhida: OP01
+Passo 4: C_min=R$6840.00, C_max=R$10050.00, Limite RCL=R$9087.00 | Tamanho RCL=5 | Escolhida: OP08
+Passo 5: C_min=R$8610.00, C_max=R$14160.00, Limite RCL=R$12495.00 | Tamanho RCL=6 | Escolhida: OP05
+Passo 6: C_min=R$12270.00, C_max=R$21060.00, Limite RCL=R$18423.00 | Tamanho RCL=6 | Escolhida: OP12
+Passo 7: C_min=R$12990.00, C_max=R$23730.00, Limite RCL=R$20508.00 | Tamanho RCL=5 | Escolhida: OP10
+Passo 8: C_min=R$13590.00, C_max=R$27990.00, Limite RCL=R$23670.00 | Tamanho RCL=3 | Escolhida: OP06
+Passo 9: C_min=R$22590.00, C_max=R$36990.00, Limite RCL=R$32670.00 | Tamanho RCL=1 | Escolhida: OP11
+Passo 10: C_min=R$35790.00, C_max=R$39990.00, Limite RCL=R$38730.00 | Tamanho RCL=1 | Escolhida: OP07
+Passo 11: C_min=R$55590.00, C_max=R$58590.00, Limite RCL=R$57690.00 | Tamanho RCL=1 | Escolhida: OP03
+Passo 12: C_min=R$81090.00, C_max=R$81090.00, Limite RCL=R$81090.00 | Tamanho RCL=1 | Escolhida: OP02
+
+=== META-HEURÍSTICA: GRASP (alpha=0.7, max_iter=100, VND=['insercao', 'swap', 'bloco']) ===
+[Iteração 0 - Base] Construída: R$ 81090.00 -> Pós-VND: R$ 21210.00
+[Iteração 001/100] NOVO MELHOR! RCL: R$ 106380.00 -> VND: R$ 20790.00 (-R$ 420.00)
+[Iteração 010/100] RCL: R$ 83760.00 -> VND: R$ 20790.00 (Melhor global: R$ 20790.00)
+[Iteração 020/100] RCL: R$ 67920.00 -> VND: R$ 21210.00 (Melhor global: R$ 20790.00)
+[Iteração 030/100] RCL: R$ 80970.00 -> VND: R$ 20790.00 (Melhor global: R$ 20790.00)
+[Iteração 040/100] RCL: R$ 84450.00 -> VND: R$ 20790.00 (Melhor global: R$ 20790.00)
+[Iteração 050/100] RCL: R$ 43020.00 -> VND: R$ 20790.00 (Melhor global: R$ 20790.00)
+[Iteração 060/100] RCL: R$ 105270.00 -> VND: R$ 21210.00 (Melhor global: R$ 20790.00)
+[Iteração 070/100] RCL: R$ 77760.00 -> VND: R$ 21210.00 (Melhor global: R$ 20790.00)
+[Iteração 080/100] RCL: R$ 74880.00 -> VND: R$ 31410.00 (Melhor global: R$ 20790.00)
+[Iteração 090/100] RCL: R$ 60360.00 -> VND: R$ 21210.00 (Melhor global: R$ 20790.00)
+[Iteração 100/100] RCL: R$ 81150.00 -> VND: R$ 21210.00 (Melhor global: R$ 20790.00)
+
+Fim do GRASP: Melhor custo encontrado = R$ 20790.00
+
+=================================================================
+RESUMO FINAL DA EXECUÇÃO:
+Cenário: cenario_2.csv
+Construtiva: Estratégia B (Parcialmente Gulosa RCL alpha=0.7)
+Refinamento: GRASP (alpha=0.7, iter=100) (Inserção + Swap + Bloco)
+Custo Inicial: R$ 81090.00
+Custo Final: R$ 20790.00
+Redução %: 74.36%
+Tempo Execução: 2.4233 s
+Iterações: 160578
+Sequência: OP01 -> OP04 -> OP07 -> OP02 -> OP03 -> OP05 -> OP12 -> OP09 -> OP06 -> OP08 -> OP11 -> OP10
+Gráfico Gantt: resultados/cenario_2/gantt_cenario2_rcl_a0.7_grasp_a0.7_it100.png
+=================================================================

@@ -1,6 +1,6 @@
 # =============================================================================
 # gera_tabela_cenario.py
-# Leitor de logs e gerador automático de tabela comparativa em PNG por cenário.
+# Leitor de logs e gerador automático de tabela comparativa com BKS e RPD (%).
 # =============================================================================
 import os
 import re
@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 def _formatar_vizinhanca(texto_viz):
     """Padroniza os nomes das estruturas de vizinhança."""
     t = texto_viz.replace("insercao", "Inserção").replace("Insercao", "Inserção")
-    t = t.replace("swap", "Swap")
+    t = t.replace("swap", "Swap").replace("bloco", "Bloco")
     return t.strip(" ()")
 
 
@@ -50,12 +50,19 @@ def extrair_metricas_log(caminho_arquivo):
     else:
         pref_const = "Construtiva"
 
-    # Extrai todos os blocos entre parênteses do refinamento
     blocos_paren = re.findall(r'\((.*?)\)', str_ref)
+    otimo_provado = (
+        "ÓTIMO GLOBAL COMPROVADO" in conteudo
+        or "MIP Gap Final     : 0.00%" in conteudo
+    )
 
     # 2. Identificação clara do Método e das Vizinhanças
-    if "Gurobi" in str_ref:
-        metodo = "Gurobi MILP (+ Warm Start VND)" if "Warm Start" in str_ref else "Gurobi Optimizer (MILP Exato)"
+    if "Branch-and-Bound" in str_ref:
+        tag = "Ótimo Comprovado" if otimo_provado else "TimeLimit"
+        metodo = f"Branch-and-Bound Exato [{tag}]"
+    elif "Gurobi" in str_ref:
+        tag = "Ótimo Comprovado" if otimo_provado else "MILP"
+        metodo = f"Gurobi Optimizer [{tag}]"
     elif "GRASP" in str_ref:
         alpha_m = re.search(r'alpha=([\d\.]+)', str_ref)
         iter_m = re.search(r'iter=(\d+)', str_ref)
@@ -89,48 +96,57 @@ def extrair_metricas_log(caminho_arquivo):
         'Custo Total Inicial (R$)': float(custo_ini.group(1)),
         'Custo Total Final (R$)': float(custo_fim.group(1)),
         'Redução (%)': float(reducao.group(1)),
-        'Tempo (s)': float(tempo.group(1))
+        'Tempo (s)': float(tempo.group(1)),
+        'Ótimo Provado': otimo_provado,
     }
 
 
-def gerar_imagem_tabela(df, caminho_saida, titulo_tabela):
+def _fmt_brl(valor):
+    return f"R$ {valor:,.2f}".replace(',', 'v').replace('.', ',').replace('v', '.')
+
+
+def gerar_imagem_tabela(df, caminho_saida, titulo_tabela, bks, tem_otimo_provado):
     """Renderiza um DataFrame como uma imagem PNG bem formatada via Matplotlib."""
     colunas = [
         'Método / Refinamento',
         'Custo Total Inicial',
         'Custo Total Final',
         'Redução (%)',
-        'Tempo (s)'
+        'RPD (%)',
+        'Tempo (s)',
     ]
 
     dados_tabela = []
+    rpd_valores = []
     for _, row in df.iterrows():
+        rpd = row['RPD (%)']
+        rpd_valores.append(rpd)
         dados_tabela.append([
             row['Método / Refinamento'],
-            f"R$ {row['Custo Total Inicial (R$)']:,.2f}".replace(',', 'v').replace('.', ',').replace('v', '.'),
-            f"R$ {row['Custo Total Final (R$)']:,.2f}".replace(',', 'v').replace('.', ',').replace('v', '.'),
+            _fmt_brl(row['Custo Total Inicial (R$)']),
+            _fmt_brl(row['Custo Total Final (R$)']),
             f"{row['Redução (%)']:.2f}%".replace('.', ','),
-            f"{row['Tempo (s)']:.4f}".replace('.', ',')
+            f"{rpd:.2f}%".replace('.', ','),
+            f"{row['Tempo (s)']:.4f}".replace('.', ','),
         ])
 
     num_linhas = len(dados_tabela)
-    altura = max(3.0, 1.4 + num_linhas * 0.48)
-    fig, ax = plt.subplots(figsize=(13.5, altura), dpi=300)
+    altura = max(3.2, 1.5 + num_linhas * 0.48)
+    fig, ax = plt.subplots(figsize=(14.5, altura), dpi=300)
     ax.axis('off')
 
-    # 44% para o nome completo do método e 14% para cada coluna numérica
-    col_widths = [0.44, 0.14, 0.14, 0.14, 0.14]
+    col_widths = [0.38, 0.13, 0.13, 0.12, 0.12, 0.12]
 
     tabela = ax.table(
         cellText=dados_tabela,
         colLabels=colunas,
         colWidths=col_widths,
         cellLoc='center',
-        loc='center'
+        loc='center',
     )
 
     tabela.auto_set_font_size(False)
-    tabela.set_fontsize(9.5)
+    tabela.set_fontsize(9.2)
     tabela.scale(1.0, 1.85)
 
     for (r, c), cell in tabela.get_celld().items():
@@ -139,22 +155,29 @@ def gerar_imagem_tabela(df, caminho_saida, titulo_tabela):
 
         if c == 0 and r > 0:
             cell.set_text_props(ha='left')
-            cell.get_text().set_position((0.03, 0.5))
+            cell.get_text().set_position((0.025, 0.5))
 
         if r == 0:
             cell.set_facecolor('#D3D3D3')
             cell.set_text_props(weight='bold', color='black', ha='center')
         else:
-            cell.set_facecolor('#F8F9FA' if r % 2 == 0 else '#FFFFFF')
+            is_best = rpd_valores[r - 1] <= 1e-4
+            if is_best and c in (2, 4):
+                cell.set_facecolor('#E6F4EA')
+                cell.set_text_props(weight='bold', color='#137333')
+            else:
+                cell.set_facecolor('#F8F9FA' if r % 2 == 0 else '#FFFFFF')
 
-    plt.title(titulo_tabela, fontsize=12, fontweight='bold', pad=15)
+    ref_label = "Ótimo Global Comprovado" if tem_otimo_provado else "Melhor Solução Conhecida (BKS)"
+    subtitulo = f"Referência RPD ({ref_label}): {_fmt_brl(bks)}"
+    plt.title(f"{titulo_tabela}\n{subtitulo}", fontsize=11.5, fontweight='bold', pad=15)
     plt.tight_layout()
     plt.savefig(caminho_saida, bbox_inches='tight', dpi=300)
     plt.close()
 
 
 def processar_cenario(num_cenario, pasta_base="resultados"):
-    """Lê os logs de um cenário e gera a tabela comparativa PNG localmente."""
+    """Lê os logs de um cenário, calcula BKS e RPD (%) e gera a tabela PNG."""
     pasta_cenario = os.path.join(pasta_base, f"cenario_{num_cenario}")
 
     if not os.path.exists(pasta_cenario):
@@ -184,12 +207,17 @@ def processar_cenario(num_cenario, pasta_base="resultados"):
         return
 
     df = pd.DataFrame(lista_dados)
+    bks = df['Custo Total Final (R$)'].min()
+    tem_otimo_provado = bool(df['Ótimo Provado'].any())
+    df['RPD (%)'] = df['Custo Total Final (R$)'].apply(
+        lambda c: ((c - bks) / bks) * 100.0 if bks > 0 else 0.0
+    )
 
     nome_imagem = f"tabela_comparativa_cenario_{num_cenario}.png"
     caminho_imagem = os.path.join(pasta_cenario, nome_imagem)
 
     titulo = f"Tabela Comparativa de Desempenho - Cenário {num_cenario}"
-    gerar_imagem_tabela(df, caminho_imagem, titulo)
+    gerar_imagem_tabela(df, caminho_imagem, titulo, bks, tem_otimo_provado)
 
     print(f"\n[SUCESSO] Tabela salva localmente em:")
     print(f"          -> {caminho_imagem}\n")

@@ -1,0 +1,34 @@
+=== CONSTRUÇÃO: ESTRATÉGIA A (EDD + SETUP | peso=5.0) ===
+Passo 1: Selecionada 1ª OP pelo menor Due Date: OP01 (Família F1, d_j = 15.0h)
+Passo 2: Adicionada OP OP04 (Família F1, Score = 20.00)
+Passo 3: Adicionada OP OP07 (Família F1, Score = 28.00)
+Passo 4: Adicionada OP OP03 (Família F2, Score = 32.00)
+Passo 5: Adicionada OP OP05 (Família F2, Score = 25.00)
+Passo 6: Adicionada OP OP02 (Família F3, Score = 25.50)
+Passo 7: Adicionada OP OP06 (Família F3, Score = 30.00)
+Passo 8: Adicionada OP OP08 (Família F3, Score = 35.00)
+Passo 9: Adicionada OP OP11 (Família F3, Score = 42.00)
+Passo 10: Adicionada OP OP09 (Família F2, Score = 44.50)
+Passo 11: Adicionada OP OP12 (Família F2, Score = 38.00)
+Passo 12: Adicionada OP OP10 (Família F1, Score = 57.50)
+
+=== RESOLUÇÃO EXATA VIA BRANCH-AND-BOUND COMBINATÓRIO (TimeLimit=15s) ===
+Warm Start Heurístico : Base R$ 24570.00 -> Pós-VND R$ 21210.00 (538 aval. VND)
+Status Otimização : ÓTIMO GLOBAL COMPROVADO (Gap = 0.00%)
+Nós Explorados    : 116746
+MIP Gap Final     : 0.00%
+Custo Final       : R$ 20790.00
+
+=================================================================
+RESUMO FINAL DA EXECUÇÃO:
+Cenário: cenario_2.csv
+Construtiva: Estratégia A (EDD + Setup)
+Refinamento: Branch-and-Bound Combinatório (TimeLimit=15s) (Inserção + Swap + Bloco)
+Custo Inicial: R$ 24570.00
+Custo Final: R$ 20790.00
+Redução %: 15.38%
+Tempo Execução: 0.9050 s
+Iterações: 116746
+Sequência: OP01 -> OP04 -> OP07 -> OP02 -> OP03 -> OP05 -> OP12 -> OP09 -> OP06 -> OP08 -> OP11 -> OP10
+Gráfico Gantt: resultados/cenario_2/gantt_cenario2_edd_bnb_exato.png
+=================================================================
